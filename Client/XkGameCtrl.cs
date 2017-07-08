@@ -2060,7 +2060,15 @@ public class XkGameCtrl : MonoBehaviour {
 		string infoK = "QiNangFJ: Q "+XKPlayerDongGanCtrl.QiNangStateFJ[0]
 		+", H "+XKPlayerDongGanCtrl.QiNangStateFJ[1]
 		+", Z "+XKPlayerDongGanCtrl.QiNangStateFJ[2]
-		+", Y "+XKPlayerDongGanCtrl.QiNangStateFJ[3];
+		+", Y "+XKPlayerDongGanCtrl.QiNangStateFJ[3]
+		+", q0 "+pcvr.QiNangArray[0]
+		+", q1 "+pcvr.QiNangArray[1]
+		+", q2 "+pcvr.QiNangArray[2]
+		+", q3 "+pcvr.QiNangArray[3]
+		+", q4 "+pcvr.QiNangArray[4]
+		+", q5 "+pcvr.QiNangArray[5]
+		+", q6 "+pcvr.QiNangArray[6]
+		+", q7 "+pcvr.QiNangArray[7];
 		GUI.Box(new Rect(0f, hight*8f, width, hight), infoK);
 		
 		string infoL = "IsStartGame "+ScreenDanHeiCtrl.IsStartGame;

@@ -13,7 +13,7 @@ using System.Collections;
 using System;
 
 public class pcvr : MonoBehaviour {
-	public static bool bIsHardWare = true;
+	public static bool bIsHardWare = false;
 	public static bool IsTestHardWareError = false;
 	public static Vector3 CrossPositionOne;
 	public static Vector3 CrossPositionTwo;
@@ -339,13 +339,24 @@ QiNangArray[3]			QiNangArray[2]
 QiNangArray[4]			QiNangArray[5]
 QiNangArray[7]			QiNangArray[6]
 
-联机版坦克8气囊.
+联机版坦克8气囊(该方案可能要取消).
 ******************.显示器.******************
-QiNangArray[0]		QiNangArray[4]		QiNangArray[1]
+QiNangArray[0]     QiNangArray[4]       QiNangArray[1]
+QiNangArray[7]                          QiNangArray[5]
+QiNangArray[3]     QiNangArray[6]       QiNangArray[2]
 
-QiNangArray[7]					        QiNangArray[5]
+联机版坦克可能用2气囊(每个玩家座椅下装一个).
+******************.显示器.******************
+QiNangArray[0]     QiNangArray[4]       QiNangArray[1]
+QiNangArray[7]                          QiNangArray[5]
+QiNangArray[3]     QiNangArray[6]       QiNangArray[2]
 
-QiNangArray[3]		QiNangArray[6]		QiNangArray[2]
+联机版直升机准备采用6个气囊,布局方式暂定为:
+******************.显示器.******************
+1                                          2
+5                                          6
+4                                          3
+之所以布局为此,目的是便于在现有的台儿庄机台测试飞机动感!
 	 */
 	public static byte[] QiNangArray = {0, 0, 0, 0, 0, 0, 0, 0};
 	/**
@@ -381,23 +392,6 @@ QiNangArray[3]		QiNangArray[6]		QiNangArray[2]
 	static bool IsOpenQiNangHou;
 	static bool IsOpenQiNangZuo;
 	static bool IsOpenQiNangYou;
-	/**
-	 * 单机版坦克8气囊.
-	 * 		P1
-	 * qn1		qn2
-	 * qn4		qn3
-	 * 
-	 * 		P2
-	 * qn5		qn6
-	 * qn8		qn7
-	 * 
-	 * 联机版坦克8气囊.
-	 * qn1		qn5		qn2
-	 * 
-	 * qn8				qn6
-	 * 
-	 * qn4		qn7		qn3
-	 */
 	public static void OpenQiNangQian()
 	{
 		if (IsOpenQiNangQian) {
@@ -406,6 +400,12 @@ QiNangArray[3]		QiNangArray[6]		QiNangArray[2]
 		IsOpenQiNangQian = true;
 
 		switch (GameTypeCtrl.AppTypeStatic) {
+		case AppGameType.LianJiFeiJi:
+		case AppGameType.DanJiFeiJi:
+				QiNangArray[0] = 1;
+				QiNangArray[1] = 1;
+				break;
+
 		case AppGameType.LianJiTanKe:
 			if (XkGameCtrl.IsActivePlayerOne || XkGameCtrl.IsActivePlayerTwo) {
 				QiNangArray[0] = 1;
@@ -455,6 +455,24 @@ QiNangArray[3]		QiNangArray[6]		QiNangArray[2]
 		IsOpenQiNangQian = false;
 		
 		switch (GameTypeCtrl.AppTypeStatic) {
+		case AppGameType.LianJiFeiJi:
+		case AppGameType.DanJiFeiJi:
+			switch (key) {
+			case 1:
+					QiNangArray[0] = 0;
+					break;
+
+			case 2:
+					QiNangArray[1] = 0;
+					break;
+
+			default:
+					QiNangArray[0] = 0;
+					QiNangArray[1] = 0;
+					break;
+			}
+			break;
+
 		case AppGameType.LianJiTanKe:
 			switch (key) {
 			case 1:
@@ -503,6 +521,12 @@ QiNangArray[3]		QiNangArray[6]		QiNangArray[2]
 		IsOpenQiNangHou = true;
 		
 		switch (GameTypeCtrl.AppTypeStatic) {
+		case AppGameType.LianJiFeiJi:
+		case AppGameType.DanJiFeiJi:
+				QiNangArray[2] = 1;
+				QiNangArray[3] = 1;
+				break;
+
 		case AppGameType.LianJiTanKe:
 			if (XkGameCtrl.IsActivePlayerOne || XkGameCtrl.IsActivePlayerTwo) {
 				QiNangArray[3] = 1;
@@ -552,6 +576,24 @@ QiNangArray[3]		QiNangArray[6]		QiNangArray[2]
 		IsOpenQiNangHou = false;
 		
 		switch (GameTypeCtrl.AppTypeStatic) {
+			case AppGameType.LianJiFeiJi:
+			case AppGameType.DanJiFeiJi:
+			switch (key) {
+			case 1:
+					QiNangArray[3] = 0;
+					break;
+
+			case 2:
+					QiNangArray[2] = 0;
+					break;
+
+			default:
+					QiNangArray[2] = 0;
+					QiNangArray[3] = 0;
+					break;
+			}
+			break;
+
 		case AppGameType.LianJiTanKe:
 			switch (key) {
 			case 1:
@@ -600,6 +642,13 @@ QiNangArray[3]		QiNangArray[6]		QiNangArray[2]
 		IsOpenQiNangZuo = true;
 		
 		switch (GameTypeCtrl.AppTypeStatic) {
+		case AppGameType.LianJiFeiJi:
+		case AppGameType.DanJiFeiJi:
+				QiNangArray[0] = 1;
+				QiNangArray[3] = 1;
+				QiNangArray[4] = 1;
+				break;
+
 		case AppGameType.LianJiTanKe:
 			if (XkGameCtrl.IsActivePlayerOne || XkGameCtrl.IsActivePlayerTwo) {
 				QiNangArray[0] = 1;
@@ -649,6 +698,27 @@ QiNangArray[3]		QiNangArray[6]		QiNangArray[2]
 		IsOpenQiNangZuo = false;
 		
 		switch (GameTypeCtrl.AppTypeStatic) {
+			case AppGameType.LianJiFeiJi:
+			case AppGameType.DanJiFeiJi:
+			switch (key) {
+			case 1:
+					QiNangArray[0] = 0;
+					QiNangArray[4] = 0;
+					break;
+
+			case 2:
+					QiNangArray[3] = 0;
+					QiNangArray[4] = 0;
+					break;
+
+			default:
+					QiNangArray[0] = 0;
+					QiNangArray[3] = 0;
+					QiNangArray[4] = 0;
+					break;
+			}
+			break;
+
 		case AppGameType.LianJiTanKe:
 			switch (key) {
 			case 1:
@@ -697,6 +767,13 @@ QiNangArray[3]		QiNangArray[6]		QiNangArray[2]
 		IsOpenQiNangYou = true;
 		
 		switch (GameTypeCtrl.AppTypeStatic) {
+		case AppGameType.LianJiFeiJi:
+		case AppGameType.DanJiFeiJi:
+				QiNangArray[1] = 1;
+				QiNangArray[2] = 1;
+				QiNangArray[5] = 1;
+				break;
+
 		case AppGameType.LianJiTanKe:
 			if (XkGameCtrl.IsActivePlayerOne || XkGameCtrl.IsActivePlayerTwo) {
 				QiNangArray[1] = 1;
@@ -746,6 +823,27 @@ QiNangArray[3]		QiNangArray[6]		QiNangArray[2]
 		IsOpenQiNangYou = false;
 		
 		switch (GameTypeCtrl.AppTypeStatic) {
+			case AppGameType.LianJiFeiJi:
+			case AppGameType.DanJiFeiJi:
+			switch (key) {
+			case 1:
+					QiNangArray[1] = 0;
+					QiNangArray[5] = 0;
+					break;
+
+			case 2:
+					QiNangArray[2] = 0;
+					QiNangArray[5] = 0;
+					break;
+
+			default:
+					QiNangArray[1] = 0;
+					QiNangArray[2] = 0;
+					QiNangArray[5] = 0;
+					break;
+			}
+			break;
+
 		case AppGameType.LianJiTanKe:
 			switch (key) {
 			case 1:
