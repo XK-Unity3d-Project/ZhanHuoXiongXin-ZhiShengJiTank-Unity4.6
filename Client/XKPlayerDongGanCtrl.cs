@@ -18,12 +18,21 @@ QiNangStateFJ[3] -> 右气囊
 	 */
 	public static int[] QiNangStateFJ = {0, 0, 0, 0};
 	Vector3 EulerAngle;
+	bool IsHandlePlayerZYQN;
 	// Use this for initialization
 	void Start()
 	{
 		//GameTypeCtrl.AppTypeStatic = AppGameType.DanJiFeiJi; //test.
 		QiNangStateTK = new int[]{0, 0, 0, 0};
 		QiNangStateFJ = new int[]{0, 0, 0, 0};
+		//避免联机状态时气囊控制错乱的问题.
+		if (XkGameCtrl.GameJiTaiSt == GameJiTaiType.FeiJiJiTai && PlayerSt != PlayerTypeEnum.FeiJi) {
+				enabled = false;
+		}
+
+		if (XkGameCtrl.GameJiTaiSt == GameJiTaiType.TanKeJiTai && PlayerSt != PlayerTypeEnum.TanKe) {
+				enabled = false;
+		}
 	}
 
 	/**
@@ -76,66 +85,44 @@ QiNangStateFJ[3] -> 右气囊
 			if (Mathf.Abs(eulerAngleX) <= offsetAngle) {
 				//前后气囊放气.
 				if (KeyQHQiNangState != 0) {
-					QiNangStateTK[0] = 0;
-					QiNangStateTK[1] = 0;
 					KeyQHQiNangState = 0;
-					if (KeyZYQiNangState == 0) {
-						pcvr.CloseQiNangQian();
-						pcvr.CloseQiNangHou();
-					}
+					isUpdateQiNang = true;
 				}
 			}
 			else if  (eulerAngleX < 0f) {
 				//前气囊充气,后气囊放气.
-				if (KeyQHQiNangState != 1) {
-					QiNangStateTK[0] = 1;
-					QiNangStateTK[1] = 0;
-					KeyQHQiNangState = 1;
-					pcvr.OpenQiNangQian();
-					pcvr.CloseQiNangHou(KeyZYQiNangState);
+				if (KeyQHQiNangState != 2) {
+						KeyQHQiNangState = 2;
+						isUpdateQiNang = true;
 				}
 			}
 			else if (eulerAngleX > 0f) {
 				//后气囊充气,前气囊放气.
-				if (KeyQHQiNangState != 2) {
-					QiNangStateTK[0] = 0;
-					QiNangStateTK[1] = 1;
-					KeyQHQiNangState = 2;
-					pcvr.OpenQiNangHou();
-					pcvr.CloseQiNangQian(KeyZYQiNangState);
+				if (KeyQHQiNangState != 1) {
+						KeyQHQiNangState = 1;
+						isUpdateQiNang = true;
 				}
 			}
 			
 			if (Mathf.Abs(eulerAngleZ) <= offsetAngle) {
 				//左右气囊放气.
 				if (KeyZYQiNangState != 0) {
-					QiNangStateTK[2] = 0;
-					QiNangStateTK[3] = 0;
 					KeyZYQiNangState = 0;
-					if (KeyQHQiNangState == 0) {
-						pcvr.CloseQiNangZuo();
-						pcvr.CloseQiNangYou();
-					}
+					isUpdateQiNang = true;
 				}
 			}
 			else if (eulerAngleZ < 0f) {
 				//左气囊充气,右气囊放气.
-				if (KeyZYQiNangState != 1) {
-					QiNangStateTK[2] = 1;
-					QiNangStateTK[3] = 0;
-					KeyZYQiNangState = 1;
-					pcvr.OpenQiNangZuo();
-					pcvr.CloseQiNangYou(KeyQHQiNangState);
+				if (KeyZYQiNangState != 2) {
+						KeyZYQiNangState = 2;
+						isUpdateQiNang = true;
 				}
 			}
 			else if  (eulerAngleZ > 0f) {
 				//右气囊充气,左气囊放气.
-				if (KeyZYQiNangState != 2) {
-					QiNangStateTK[2] = 0;
-					QiNangStateTK[3] = 1;
-					KeyZYQiNangState = 2;
-					pcvr.OpenQiNangYou();
-					pcvr.CloseQiNangZuo(KeyQHQiNangState);
+				if (KeyZYQiNangState != 1) {
+						KeyZYQiNangState = 1;
+						isUpdateQiNang = true;
 				}
 			}
 			break;
@@ -207,6 +194,72 @@ QiNangStateFJ[3] -> 右气囊
 		void UpdateJiTaiDongGan()
 		{
 				switch (PlayerSt) {
+				case PlayerTypeEnum.TanKe:
+						switch (KeyQHQiNangState) {
+						case 0:
+								QiNangStateTK[0] = 0;
+								QiNangStateTK[1] = 0;
+								if (KeyZYQiNangState == 0) {
+										if (!pcvr.IsUse2QNLinkTank) {
+											pcvr.CloseQiNangQian();
+											pcvr.CloseQiNangHou();
+										}
+								}
+								break;
+						case 1:
+								QiNangStateTK[0] = 0;
+								QiNangStateTK[1] = 1;
+								if (!pcvr.IsUse2QNLinkTank) {
+									pcvr.OpenQiNangHou();
+									pcvr.CloseQiNangQian(KeyZYQiNangState);
+								}
+								break;
+						case 2:
+								QiNangStateTK[0] = 1;
+								QiNangStateTK[1] = 0;
+								if (!pcvr.IsUse2QNLinkTank) {
+										pcvr.OpenQiNangQian();
+										pcvr.CloseQiNangHou(KeyZYQiNangState);
+								}
+								else {
+										if (!IsHandlePlayerZYQN) {
+												IsHandlePlayerZYQN = true;
+												StartCoroutine(HandlePlayerZuoYiQiNang());
+										}
+								}
+								break;
+						}
+
+						switch (KeyZYQiNangState) {
+						case 0:
+								QiNangStateTK[2] = 0;
+								QiNangStateTK[3] = 0;
+								if (KeyQHQiNangState == 0) {
+										if (!pcvr.IsUse2QNLinkTank) {
+											pcvr.CloseQiNangZuo();
+											pcvr.CloseQiNangYou();
+										}
+								}
+								break;
+						case 1:
+								QiNangStateTK[2] = 0;
+								QiNangStateTK[3] = 1;
+								if (!pcvr.IsUse2QNLinkTank) {
+									pcvr.OpenQiNangYou();
+									pcvr.CloseQiNangZuo(KeyQHQiNangState);
+								}
+								break;
+						case 2:
+								QiNangStateTK[2] = 1;
+								QiNangStateTK[3] = 0;
+								if (!pcvr.IsUse2QNLinkTank) {
+									pcvr.OpenQiNangZuo();
+									pcvr.CloseQiNangYou(KeyQHQiNangState);
+								}
+								break;
+						}
+						break;
+
 				case PlayerTypeEnum.FeiJi:
 						{
 								switch (KeyQHQiNangState) {
@@ -257,5 +310,14 @@ QiNangStateFJ[3] -> 右气囊
 						}
 						break;
 				}
+		}
+
+		IEnumerator HandlePlayerZuoYiQiNang()
+		{
+				pcvr.OpenQiNangQian();
+				yield return new WaitForSeconds(2f);
+				pcvr.CloseQiNangQian();
+				yield return new WaitForSeconds(1f);
+				IsHandlePlayerZYQN = false;
 		}
 }

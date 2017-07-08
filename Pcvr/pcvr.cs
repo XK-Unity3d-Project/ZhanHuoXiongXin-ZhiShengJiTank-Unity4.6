@@ -7,6 +7,10 @@
 /**
  * COM_FEIJI_TX该属性用来打开飞机机台的硬件通讯逻辑.
  */
+#define LIAN_JI_TANK_2QN
+/**
+ * LIAN_JI_TANK_2QN直升机坦克联合作战机台2个座椅气囊.
+ */
 
 using UnityEngine;
 using System.Collections;
@@ -15,6 +19,7 @@ using System;
 public class pcvr : MonoBehaviour {
 	public static bool bIsHardWare = false;
 	public static bool IsTestHardWareError = false;
+	public static bool IsUse2QNLinkTank = false;
 	public static Vector3 CrossPositionOne;
 	public static Vector3 CrossPositionTwo;
 	public static bool IsJiaoYanHid;
@@ -167,6 +172,10 @@ public class pcvr : MonoBehaviour {
 		#if COM_TANK_TEST
 		IsComTankTest = true;
 		MyCOMDevice.PcvrComSt = PcvrComState.TanKeGunZhenDong; //test.
+		#endif
+
+		#if LIAN_JI_TANK_2QN
+		IsUse2QNLinkTank = true;
 		#endif
 
 		Debug.Log("MyCOMDevice.PcvrComSt "+MyCOMDevice.PcvrComSt);
@@ -347,9 +356,7 @@ QiNangArray[3]     QiNangArray[6]       QiNangArray[2]
 
 联机版坦克可能用2气囊(每个玩家座椅下装一个).
 ******************.显示器.******************
-QiNangArray[0]     QiNangArray[4]       QiNangArray[1]
-QiNangArray[7]                          QiNangArray[5]
-QiNangArray[3]     QiNangArray[6]       QiNangArray[2]
+QiNangArray[0]            QiNangArray[1]
 
 联机版直升机准备采用6个气囊,布局方式暂定为:
 ******************.显示器.******************
@@ -406,18 +413,37 @@ QiNangArray[3]     QiNangArray[6]       QiNangArray[2]
 				QiNangArray[1] = 1;
 				break;
 
+		#if LIAN_JI_TANK_2QN
+		case AppGameType.LianJiTanKe:
+		case AppGameType.DanJiTanKe:
+				if (XkGameCtrl.IsActivePlayerOne) {
+						QiNangArray[0] = 1;
+				}
+				else {
+						QiNangArray[0] = 0;
+				}
+
+				if (XkGameCtrl.IsActivePlayerTwo) {
+						QiNangArray[1] = 1;
+				}
+				else {
+						QiNangArray[1] = 0;
+				}
+				break;
+		#else
 		case AppGameType.LianJiTanKe:
 			if (XkGameCtrl.IsActivePlayerOne || XkGameCtrl.IsActivePlayerTwo) {
-				QiNangArray[0] = 1;
-				QiNangArray[4] = 1;
-				QiNangArray[1] = 1;
+			QiNangArray[0] = 1;
+			QiNangArray[4] = 1;
+			QiNangArray[1] = 1;
 			}
 			else {
-				QiNangArray[0] = 0;
-				QiNangArray[4] = 0;
-				QiNangArray[1] = 0;
+			QiNangArray[0] = 0;
+			QiNangArray[4] = 0;
+			QiNangArray[1] = 0;
 			}
-			break;
+		break;
+		#endif
 
 		default:
 			if (XkGameCtrl.IsActivePlayerOne) {
@@ -473,23 +499,31 @@ QiNangArray[3]     QiNangArray[6]       QiNangArray[2]
 			}
 			break;
 
-		case AppGameType.LianJiTanKe:
+			#if LIAN_JI_TANK_2QN
+			case AppGameType.LianJiTanKe:
+			case AppGameType.DanJiTanKe:
+					QiNangArray[0] = 0;
+					QiNangArray[1] = 0;
+					break;
+			#else
+			case AppGameType.LianJiTanKe:
 			switch (key) {
-			case 1:
+				case 1:
 				QiNangArray[0] = 0;
 				QiNangArray[4] = 0;
 				break;
-			case 2:
+				case 2:
 				QiNangArray[1] = 0;
 				QiNangArray[4] = 0;
 				break;
-			default:
+				default:
 				QiNangArray[0] = 0;
 				QiNangArray[4] = 0;
 				QiNangArray[1] = 0;
 				break;
 			}
 			break;
+			#endif
 		
 		default:
 			switch (key) {
