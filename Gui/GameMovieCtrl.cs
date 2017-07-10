@@ -49,7 +49,7 @@ public class GameMovieCtrl : MonoBehaviour {
 	{
 		XkGameCtrl.IsLoadingLevel = false;
 		string threeScreen = HandleJson.GetInstance().ReadFromFilePathXml(GameTypeCtrl.TestGameFile, "threeScreen");
-		if (threeScreen == "") {
+		if (threeScreen == null || threeScreen == "") {
 			threeScreen = "0";
 			HandleJson.GetInstance().WriteToFilePathXml(GameTypeCtrl.TestGameFile, "threeScreen", threeScreen);
 		}

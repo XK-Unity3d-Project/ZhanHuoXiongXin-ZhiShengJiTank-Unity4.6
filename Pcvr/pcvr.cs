@@ -17,7 +17,8 @@ using System.Collections;
 using System;
 
 public class pcvr : MonoBehaviour {
-	public static bool bIsHardWare = false;
+	public static bool bIsHardWare = true;
+	public static bool IsTestPCKey = false;
 	public static bool IsTestHardWareError = false;
 	public static bool IsUse2QNLinkTank = false;
 	public static Vector3 CrossPositionOne;
@@ -2751,7 +2752,7 @@ QiNangArray[0]            QiNangArray[1]
 			mousePosCur.y = mousePosCur.y > CrossPosYMaxP1 ? mousePosCur.y : CrossPosYMaxP1;
 		}
 
-		if (!GameMovieCtrl.IsThreeScreenGame) {
+		if (PerScreenWH < PerScreenWHCen) {
 			pos.x = (int)(Mathf.Abs(mousePosCur.x - CrossPosXMinP1 + 1) * XkGameCtrl.ScreenWidth) / CrossPosDisXP1;
 			pos.y = (int)(Mathf.Abs(mousePosCur.y - CrossPosYMinP1 + 1) * XkGameCtrl.ScreenHeight) / CrossPosDisYP1;
 		}
@@ -2783,6 +2784,13 @@ QiNangArray[0]            QiNangArray[1]
 	}
 	static float GunPosOffsetPY = 18f;
 	const float GunPosOffsetGaoBaoDanPY = 28f;
+	public static float PerScreenWH = 5.3f;
+	public static float PerScreenWHCen = 2f;
+	public static void CheckPerScreenWH()
+	{
+			PerScreenWH = (float)Screen.width / Screen.height;
+			//Debug.Log("PerScreenWH **** "+PerScreenWH);
+	}
 
 	void InitCrossPosInfoPTwo()
 	{
@@ -3073,7 +3081,7 @@ QiNangArray[0]            QiNangArray[1]
 			mousePosCur.y = mousePosCur.y > CrossPosYMaxP2 ? mousePosCur.y : CrossPosYMaxP2;
 		}
 
-		if (!GameMovieCtrl.IsThreeScreenGame) {
+		if (PerScreenWH < PerScreenWHCen) {
 			pos.x = (int)(Mathf.Abs(mousePosCur.x - CrossPosXMinP2 + 1) * XkGameCtrl.ScreenWidth) / CrossPosDisXP2;
 			pos.y = (int)(Mathf.Abs(mousePosCur.y - CrossPosYMinP2 + 1) * XkGameCtrl.ScreenHeight) / CrossPosDisYP2;
 		}

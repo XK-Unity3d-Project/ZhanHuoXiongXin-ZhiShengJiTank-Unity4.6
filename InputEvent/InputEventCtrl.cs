@@ -181,7 +181,7 @@ public class InputEventCtrl : MonoBehaviour {
 //			HardwareCheckCtrl.OnRestartGame();
 //		}
 
-		if (pcvr.bIsHardWare) {
+		if (pcvr.bIsHardWare && !pcvr.IsTestPCKey) {
 			return;
 		}
 

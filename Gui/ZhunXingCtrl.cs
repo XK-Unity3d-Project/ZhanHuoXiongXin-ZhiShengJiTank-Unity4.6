@@ -74,7 +74,7 @@ public class ZhunXingCtrl : MonoBehaviour {
 			}
 		}
 		else {
-			if (!GameMovieCtrl.IsThreeScreenGame) {
+			if (pcvr.PerScreenWH < pcvr.PerScreenWHCen) {
 				mousePosInput.x *= (XkGameCtrl.ScreenWidth / Screen.width);
 				mousePosInput.y *= (XkGameCtrl.ScreenHeight / Screen.height);
 			}

@@ -51,8 +51,14 @@ public class CoinPlayerCtrl : MonoBehaviour {
 		}
 	}
 
+	static float TimeLastWH;
 	void Update()
 	{
+		if (Time.time - TimeLastWH > 3f && PlayerSt == PlayerEnum.PlayerOne) {
+				TimeLastWH = Time.time;
+				pcvr.CheckPerScreenWH();
+		}
+
 		if ((JiFenJieMianCtrl.GetInstance() != null && JiFenJieMianCtrl.GetInstance().GetIsShowFinishTask())
 		    || (PlayerSt == PlayerEnum.PlayerOne && XkGameCtrl.IsActivePlayerOne)
 		    || (PlayerSt == PlayerEnum.PlayerTwo && XkGameCtrl.IsActivePlayerTwo)) {

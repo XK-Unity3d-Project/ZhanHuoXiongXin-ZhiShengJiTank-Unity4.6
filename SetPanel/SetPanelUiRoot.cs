@@ -249,10 +249,16 @@ public class SetPanelUiRoot : MonoBehaviour
 		InputEventCtrl.GetInstance().ClickStopDongGanBtOneEvent += ClickStopDongGanBtOneEvent;
 	}
 
+	static float TimeLastWH;
 	void Update()
 	{
 		if (SetBtSt == ButtonState.DOWN && Time.time - TimeSetMoveBt > 1f && Time.frameCount % 200 == 0) {
 			MoveStarImg();
+		}
+
+		if (Time.time - TimeLastWH > 3f) {
+				TimeLastWH = Time.time;
+				pcvr.CheckPerScreenWH();
 		}
 	}
 
