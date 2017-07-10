@@ -1066,6 +1066,7 @@ public class SetPanelUiRoot : MonoBehaviour
 			break;
 
 		case GameJiTaiType.FeiJiJiTai:
+			CheckOpenTanKeCeShiInfo();
 			break;
 		}
 	}
@@ -1186,7 +1187,7 @@ public class SetPanelUiRoot : MonoBehaviour
 					StarMoveCount = (int)SelectSetGameDt.DianJiSpeedP2;
 					break;
 					
-				case SelectSetGameDt.StartLedTest:
+				case SelectSetGameDt.QiNangTest6:
 					StarMoveCount = (int)SelectSetGameDt.Null;
 					break;
 				}
