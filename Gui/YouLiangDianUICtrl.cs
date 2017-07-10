@@ -76,7 +76,7 @@ public class YouLiangDianUICtrl : MonoBehaviour {
 		Vector3 startPos = Vector3.zero;
 		startPos = Camera.main.WorldToScreenPoint(tranNpc.position);
 		startPos.z = 0f;
-		if (!GameMovieCtrl.IsThreeScreenGame) {
+		if (pcvr.PerScreenWH < pcvr.PerScreenWHCen) {
 			startPos.x = (XkGameCtrl.ScreenWidth * startPos.x) / Screen.width;
 			startPos.y = (XkGameCtrl.ScreenHeight * startPos.y) / Screen.height;
 		}

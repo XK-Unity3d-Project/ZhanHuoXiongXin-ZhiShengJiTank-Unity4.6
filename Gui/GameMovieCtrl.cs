@@ -59,9 +59,9 @@ public class GameMovieCtrl : MonoBehaviour {
 		case AppGameType.DanJiFeiJi:
 		case AppGameType.LianJiFeiJi:
 			IsThreeScreenGame = true;
-			if (!IsTestThreeScreen) {
-				IsThreeScreenGame = false;
-			}
+//			if (!IsTestThreeScreen) {
+//				IsThreeScreenGame = false;
+//			}
 			break;
 		default:
 			IsThreeScreenGame = false;

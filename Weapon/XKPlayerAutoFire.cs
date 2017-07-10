@@ -273,7 +273,7 @@ PlayerAudio[6] -> 主角飞机/坦克行驶音效.
 		Vector3 mousePosInput = Input.mousePosition;
 		if (pcvr.bIsHardWare) {
 			mousePosInput = pcvr.CrossPositionOne;
-			if (!GameMovieCtrl.IsThreeScreenGame) {
+			if (pcvr.PerScreenWH < pcvr.PerScreenWHCen) {
 				mousePosInput.x = mousePosInput.x / (XkGameCtrl.ScreenWidth / Screen.width);
 				mousePosInput.y = mousePosInput.y / (XkGameCtrl.ScreenHeight / Screen.height);
 			}
@@ -427,7 +427,7 @@ PlayerAudio[6] -> 主角飞机/坦克行驶音效.
 		Vector3 mousePosInput = Input.mousePosition;
 		if (pcvr.bIsHardWare) {
 			mousePosInput = pcvr.CrossPositionTwo;
-			if (!GameMovieCtrl.IsThreeScreenGame) {
+			if (pcvr.PerScreenWH < pcvr.PerScreenWHCen) {
 				mousePosInput.x = mousePosInput.x / (XkGameCtrl.ScreenWidth / Screen.width);
 				mousePosInput.y = mousePosInput.y / (XkGameCtrl.ScreenHeight / Screen.height);
 			}
@@ -827,7 +827,7 @@ PlayerAudio[6] -> 主角飞机/坦克行驶音效.
 		Vector3 mousePosInput = Input.mousePosition;
 		if (pcvr.bIsHardWare) {
 			mousePosInput = pcvr.CrossPositionOne;
-			if (!GameMovieCtrl.IsThreeScreenGame) {
+			if (pcvr.PerScreenWH < pcvr.PerScreenWHCen) {
 				mousePosInput.x = mousePosInput.x / (XkGameCtrl.ScreenWidth / Screen.width);
 				mousePosInput.y = mousePosInput.y / (XkGameCtrl.ScreenHeight / Screen.height);
 			}
@@ -947,7 +947,7 @@ PlayerAudio[6] -> 主角飞机/坦克行驶音效.
 		Vector3 mousePosInput = Input.mousePosition;
 		if (pcvr.bIsHardWare) {
 			mousePosInput = pcvr.CrossPositionTwo;
-			if (!GameMovieCtrl.IsThreeScreenGame) {
+			if (pcvr.PerScreenWH < pcvr.PerScreenWHCen) {
 				mousePosInput.x = mousePosInput.x / (XkGameCtrl.ScreenWidth / Screen.width);
 				mousePosInput.y = mousePosInput.y / (XkGameCtrl.ScreenHeight / Screen.height);
 			}
@@ -1158,7 +1158,7 @@ PlayerAudio[6] -> 主角飞机/坦克行驶音效.
 		Vector3 mousePosInput = Input.mousePosition;
 		if (pcvr.bIsHardWare) {
 			mousePosInput = pcvr.CrossPositionOne;
-			if (!GameMovieCtrl.IsThreeScreenGame) {
+			if (pcvr.PerScreenWH < pcvr.PerScreenWHCen) {
 				mousePosInput.x = mousePosInput.x / (XkGameCtrl.ScreenWidth / Screen.width);
 				mousePosInput.y = mousePosInput.y / (XkGameCtrl.ScreenHeight / Screen.height);
 			}
@@ -1226,7 +1226,7 @@ PlayerAudio[6] -> 主角飞机/坦克行驶音效.
 		Vector3 mousePosInput = Input.mousePosition;
 		if (pcvr.bIsHardWare) {
 			mousePosInput = pcvr.CrossPositionOne;
-			if (!GameMovieCtrl.IsThreeScreenGame) {
+			if (pcvr.PerScreenWH < pcvr.PerScreenWHCen) {
 				mousePosInput.x = mousePosInput.x / (XkGameCtrl.ScreenWidth / Screen.width);
 				mousePosInput.y = mousePosInput.y / (XkGameCtrl.ScreenHeight / Screen.height);
 			}

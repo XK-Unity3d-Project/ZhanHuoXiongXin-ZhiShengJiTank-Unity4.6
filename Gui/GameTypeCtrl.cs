@@ -57,7 +57,12 @@ public class GameTypeCtrl : MonoBehaviour
 		case AppGameType.DanJiTanKe:
 		case AppGameType.LianJiTanKe:
 			if (!pcvr.IsComTankTest) {
-				MyCOMDevice.PcvrComSt = PcvrComState.TanKeFangXiangZhenDong;
+				if (AppType == AppGameType.DanJiTanKe) {
+						MyCOMDevice.PcvrComSt = PcvrComState.TanKeFangXiangZhenDong;
+				}
+				else {
+						MyCOMDevice.PcvrComSt = PcvrComState.TanKeGunZhenDong;
+				}
 			}
 			IsZuoBiaoFanZhuanPY = AppType == AppGameType.DanJiTanKe ? true : false;
 			PcvrGameSt = AppType == AppGameType.DanJiTanKe ?

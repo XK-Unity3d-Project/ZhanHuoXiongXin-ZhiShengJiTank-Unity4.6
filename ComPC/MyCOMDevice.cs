@@ -20,6 +20,7 @@ public class MyCOMDevice : MonoBehaviour
 	 * 1.PcvrComSt == TanKeFangXiangZhenDong -> 坦克机台的枪震动和方向盘震动在同一块IO板和同一套通信协议下完成.
 	 * 对于坦克游戏PcvrComSt均设置为TanKeFangXiangZhenDong.
 	 * 2.PcvrComSt == TanKeGunZhenDong -> 测试坦克枪震动等级逻辑,飞机机台采用枪震动通讯(动感星虫危机硬件通讯-吉普车).
+	 * 3.联机坦克有可能和联机直升机采用同一块IO板完成.
 	 */
 	public static PcvrComState PcvrComSt = PcvrComState.TanKeFangXiangZhenDong;
 	/**
