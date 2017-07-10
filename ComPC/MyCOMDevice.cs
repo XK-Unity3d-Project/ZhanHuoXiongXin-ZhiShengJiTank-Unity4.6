@@ -19,7 +19,7 @@ public class MyCOMDevice : MonoBehaviour
 	 * 硬件通信.
 	 * 1.PcvrComSt == TanKeFangXiangZhenDong -> 坦克机台的枪震动和方向盘震动在同一块IO板和同一套通信协议下完成.
 	 * 对于坦克游戏PcvrComSt均设置为TanKeFangXiangZhenDong.
-	 * 2.PcvrComSt == TanKeGunZhenDong -> 测试坦克枪震动等级逻辑,飞机机台采用枪震动通讯(台儿庄硬件通讯).
+	 * 2.PcvrComSt == TanKeGunZhenDong -> 测试坦克枪震动等级逻辑,飞机机台采用枪震动通讯(动感星虫危机硬件通讯-吉普车).
 	 */
 	public static PcvrComState PcvrComSt = PcvrComState.TanKeFangXiangZhenDong;
 	/**
@@ -155,7 +155,7 @@ public class MyCOMDevice : MonoBehaviour
 			{
 				IsReadComMsg = false;
 				_SerialPort.Write(WriteByteMsg, 0, WriteByteMsg.Length);
-				_SerialPort.DiscardOutBuffer();
+//				_SerialPort.DiscardOutBuffer();
 				WriteCount++;
 			}
 			catch (Exception exception)
@@ -177,7 +177,7 @@ public class MyCOMDevice : MonoBehaviour
 			{
 				RxStringData = _SerialPort.ReadLine();
 				ReadByteMsg = _SerialPort.Encoding.GetBytes(RxStringData);
-				_SerialPort.DiscardInBuffer();
+//				_SerialPort.DiscardInBuffer();
 				ReadCount++;
 				IsReadComMsg = true;
 				ReadMsgTimeOutVal = 0f;
@@ -206,8 +206,8 @@ public class MyCOMDevice : MonoBehaviour
 			if (_SerialPort == null || !_SerialPort.IsOpen) {
 				return;
 			}
-			_SerialPort.DiscardOutBuffer();
-			_SerialPort.DiscardInBuffer();
+//			_SerialPort.DiscardOutBuffer();
+//			_SerialPort.DiscardInBuffer();
 			_SerialPort.Close();
 			_SerialPort = null;
 		}
@@ -283,7 +283,7 @@ public class MyCOMDevice : MonoBehaviour
 	void CheckTimeOutReadMsg()
 	{
 		ReadMsgTimeOutVal += TimeUnitDelta;
-		float timeMinVal = CountOpenCom < 6 ? 0.5f : 4f;
+		float timeMinVal = CountOpenCom < 6 ? 2f : 4f;
 		if (CountOpenCom > 20) {
 			timeMinVal = 10f;
 		}
