@@ -29,6 +29,7 @@ public class HardwareCheckCtrl : MonoBehaviour
 		}
 		else {
 			MyCOMDevice.PcvrComSt = PcvrComState.TanKeGunZhenDong;
+			IsNewGunZD = true;
 			if (HiddenObjLink != null && HiddenObjLink.Length > 0) {
 				for (int i = 0; i < HiddenObjLink.Length; i++) {
 					HiddenObjLink[i].SetActive(false);
@@ -403,6 +404,9 @@ public class HardwareCheckCtrl : MonoBehaviour
 		float dengJiKey = (float)dengJiVal / maxDJ;
 
 		int zdVal = (int)(dengJiKey * (maxGunZD - minGunZD) + minGunZD);
+		if (MyCOMDevice.PcvrComSt == PcvrComState.TanKeGunZhenDong) {
+			zdVal = Mathf.RoundToInt(UIProgressBar.current.value * 15f);
+		}
 		return zdVal;
 	}
 
