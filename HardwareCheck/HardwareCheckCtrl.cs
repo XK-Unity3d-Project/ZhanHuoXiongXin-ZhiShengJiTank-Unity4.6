@@ -5,6 +5,10 @@ using System.Diagnostics;
 public class HardwareCheckCtrl : MonoBehaviour
 {
 	public PcvrComState PcvrComSt;
+	/**
+	 * 直升机坦克联合作战游戏在硬件测试界面隐藏的对象.
+	 */
+	public GameObject[] HiddenObjLink;
 	public UILabel[] BiZhiLable;
 	public UILabel[] QiangPosLable;
 	public UILabel[] QiangZDLable;
@@ -25,6 +29,11 @@ public class HardwareCheckCtrl : MonoBehaviour
 		}
 		else {
 			MyCOMDevice.PcvrComSt = PcvrComState.TanKeGunZhenDong;
+			if (HiddenObjLink != null && HiddenObjLink.Length > 0) {
+				for (int i = 0; i < HiddenObjLink.Length; i++) {
+					HiddenObjLink[i].SetActive(false);
+				}
+			}
 		}
 	}
 
