@@ -1223,7 +1223,14 @@ public class XkGameCtrl : MonoBehaviour {
 		}
 		
 		if (IsActivePlayerOne && IsActivePlayerTwo) {
-			val = (int)(1.5f * val);
+			val = (int)(2f * val);
+			if (GameJiTaiSt == GameJiTaiType.FeiJiJiTai) {
+					val = (int)(3f * val);
+			}
+		} else {
+			if (GameJiTaiSt == GameJiTaiType.FeiJiJiTai) {
+				val = (int)(2f * val);
+			}
 		}
 		val = (int)(GameDiffVal * val);
 
