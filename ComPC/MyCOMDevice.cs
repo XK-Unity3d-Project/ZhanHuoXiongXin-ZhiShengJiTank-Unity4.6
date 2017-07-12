@@ -125,19 +125,12 @@ public class MyCOMDevice : MonoBehaviour
 				}
 
 				COMTxData();
-				if (pcvr.IsJiaoYanHid || !pcvr.IsPlayerActivePcvr) {
-					Thread.Sleep(100);
-				}
-				else {
-					Thread.Sleep(25);
-				}
-
 				COMRxData();
 				if (pcvr.IsJiaoYanHid || !pcvr.IsPlayerActivePcvr) {
 					Thread.Sleep(100);
 				}
 				else {
-					Thread.Sleep(25);
+					Thread.Sleep(15);
 				}
 				IsTestWRPer = true;
 			}
