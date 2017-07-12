@@ -32,6 +32,14 @@ public class SetPanelUiRoot : MonoBehaviour
 	 * QiNangUI[3] -> 4, QiNangUI[2] -> 3, 
 	 */
 	public Texture[] QiNangUI;
+	/**
+	 * 联机直升机气囊测试图片.
+	 */
+	public Texture[] QiNangZSJUI;
+	/**
+	 * 联机坦克气囊测试图片,只更新前两个图片.
+	 */
+	public Texture[] QiNangTankUI;
 	public Transform GunCrossTran;
 	public GameObject GunAdjustObj;
 	public UISprite SpriteAdjustGunCross;
@@ -208,6 +216,18 @@ public class SetPanelUiRoot : MonoBehaviour
 				GameJiTai = GameJiTaiType.Null;
 			}
 		}
+
+		if (GameTypeCtrl.AppTypeStatic == AppGameType.LianJiFeiJi
+		    || GameJiTai == GameJiTaiType.FeiJiJiTai) {
+			QiNangUI = QiNangZSJUI;
+		}
+		
+		if (GameTypeCtrl.AppTypeStatic == AppGameType.LianJiTanKe
+		    || GameJiTai == GameJiTaiType.TanKeJiTai) {
+			QiNangUI[0] = QiNangTankUI[0];
+			QiNangUI[1] = QiNangTankUI[1];
+		}
+
 		GameOverCtrl.IsShowGameOver = false;
 		pcvr.OpenDongGanState();
 		pcvr.StartLightStateP1 = LedState.Mie;
@@ -1172,6 +1192,14 @@ public class SetPanelUiRoot : MonoBehaviour
 				case SelectSetGameDt.GameLanguageCh:
 					StarMoveCount = (int)SelectSetGameDt.GameLanguageEn;
 					break;
+
+				case SelectSetGameDt.GameAudioReset:
+					StarMoveCount = (int)SelectSetGameDt.DianJiSpeedP2;
+					break;
+					
+				case SelectSetGameDt.QiNangTest2:
+					StarMoveCount = (int)SelectSetGameDt.Null;
+					break;
 				}
 			}
 
@@ -1191,10 +1219,6 @@ public class SetPanelUiRoot : MonoBehaviour
 					
 				case SelectSetGameDt.GameAudioReset:
 					StarMoveCount = (int)SelectSetGameDt.DianJiSpeedP2;
-					break;
-					
-				case SelectSetGameDt.QiNangTest6:
-					StarMoveCount = (int)SelectSetGameDt.Null;
 					break;
 				}
 			}
