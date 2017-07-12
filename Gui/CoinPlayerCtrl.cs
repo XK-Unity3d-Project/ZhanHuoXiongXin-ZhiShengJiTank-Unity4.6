@@ -51,7 +51,7 @@ public class CoinPlayerCtrl : MonoBehaviour {
 		}
 	}
 
-	static float TimeLastWH;
+	static float TimeLastWH = -100f;
 	void Update()
 	{
 		if (Time.time - TimeLastWH > 3f && PlayerSt == PlayerEnum.PlayerOne) {

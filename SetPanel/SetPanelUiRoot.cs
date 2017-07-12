@@ -249,7 +249,7 @@ public class SetPanelUiRoot : MonoBehaviour
 		InputEventCtrl.GetInstance().ClickStopDongGanBtOneEvent += ClickStopDongGanBtOneEvent;
 	}
 
-	static float TimeLastWH;
+	static float TimeLastWH = -100f;
 	void Update()
 	{
 		if (SetBtSt == ButtonState.DOWN && Time.time - TimeSetMoveBt > 1f && Time.frameCount % 200 == 0) {
