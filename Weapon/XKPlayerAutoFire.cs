@@ -144,9 +144,19 @@ PlayerAudio[6] -> 主角飞机/坦克行驶音效.
 		GUI.Label(new Rect(10f, Screen.height - 25f, Screen.width, 25f), strA);
 	}*/
 
+	float TimeLastPcvr;
 	// Update is called once per frame
 	void Update()
 	{
+		if (Time.time - TimeLastPcvr > 3f) {
+			TimeLastPcvr = Time.time;
+			if (pcvr.bIsHardWare) {
+				if (IsActiveFireBtOne || IsActiveFireBtTwo) {
+						pcvr.SetIsPlayerActivePcvr();
+				}
+			}
+		}
+
 		if (XKTriggerClosePlayerUI.IsClosePlayerUI) {
 			return;
 		}
