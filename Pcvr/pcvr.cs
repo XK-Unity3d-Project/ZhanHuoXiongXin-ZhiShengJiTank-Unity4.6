@@ -362,9 +362,9 @@ QiNangArray[0]            QiNangArray[1]
 联机版直升机准备采用6个气囊,布局方式暂定为:
 ******************.显示器.******************
 1                                          2
-5                                          6
+5&7                                      6&8
 4                                          3
-之所以布局为此,目的是便于在现有的台儿庄机台测试飞机动感!
+5和7状态一致,6和8状态一致,之所以布局为此,目的是便于在现有的台儿庄机台测试飞机动感!
 	 */
 	public static byte[] QiNangArray = {0, 0, 0, 0, 0, 0, 0, 0};
 	/**
@@ -682,6 +682,7 @@ QiNangArray[0]            QiNangArray[1]
 				QiNangArray[0] = 1;
 				QiNangArray[3] = 1;
 				QiNangArray[4] = 1;
+				QiNangArray[6] = 1;
 				break;
 
 		case AppGameType.LianJiTanKe:
@@ -739,17 +740,20 @@ QiNangArray[0]            QiNangArray[1]
 			case 1:
 					QiNangArray[0] = 0;
 					QiNangArray[4] = 0;
+					QiNangArray[6] = 0;
 					break;
 
 			case 2:
 					QiNangArray[3] = 0;
 					QiNangArray[4] = 0;
+					QiNangArray[6] = 0;
 					break;
 
 			default:
 					QiNangArray[0] = 0;
 					QiNangArray[3] = 0;
 					QiNangArray[4] = 0;
+					QiNangArray[6] = 0;
 					break;
 			}
 			break;
@@ -807,6 +811,7 @@ QiNangArray[0]            QiNangArray[1]
 				QiNangArray[1] = 1;
 				QiNangArray[2] = 1;
 				QiNangArray[5] = 1;
+				QiNangArray[7] = 1;
 				break;
 
 		case AppGameType.LianJiTanKe:
@@ -864,17 +869,20 @@ QiNangArray[0]            QiNangArray[1]
 			case 1:
 					QiNangArray[1] = 0;
 					QiNangArray[5] = 0;
+					QiNangArray[7] = 0;
 					break;
 
 			case 2:
 					QiNangArray[2] = 0;
 					QiNangArray[5] = 0;
+					QiNangArray[7] = 0;
 					break;
 
 			default:
 					QiNangArray[1] = 0;
 					QiNangArray[2] = 0;
 					QiNangArray[5] = 0;
+					QiNangArray[7] = 0;
 					break;
 			}
 			break;
