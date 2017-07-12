@@ -43,7 +43,6 @@ public class GameMovieCtrl : MonoBehaviour {
 		return _instance;
 	}
 
-	//public static string TestGameFile = "TestGame.info";
 	// Use this for initialization
 	void Start()
 	{
@@ -51,7 +50,9 @@ public class GameMovieCtrl : MonoBehaviour {
 		string threeScreen = HandleJson.GetInstance().ReadFromFilePathXml(GameTypeCtrl.TestGameFile, "threeScreen");
 		if (threeScreen == null || threeScreen == "") {
 			threeScreen = "0";
-			HandleJson.GetInstance().WriteToFilePathXml(GameTypeCtrl.TestGameFile, "threeScreen", threeScreen);
+			if (!pcvr.bIsHardWare) {
+				HandleJson.GetInstance().WriteToFilePathXml(GameTypeCtrl.TestGameFile, "threeScreen", threeScreen);
+			}
 		}
 		IsTestThreeScreen = threeScreen == "0" ? false : true;
 
@@ -59,9 +60,6 @@ public class GameMovieCtrl : MonoBehaviour {
 		case AppGameType.DanJiFeiJi:
 		case AppGameType.LianJiFeiJi:
 			IsThreeScreenGame = true;
-//			if (!IsTestThreeScreen) {
-//				IsThreeScreenGame = false;
-//			}
 			break;
 		default:
 			IsThreeScreenGame = false;
