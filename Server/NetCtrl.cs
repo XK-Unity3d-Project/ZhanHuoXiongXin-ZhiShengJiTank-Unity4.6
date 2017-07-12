@@ -17,6 +17,8 @@ public class NetCtrl : MonoBehaviour {
 	bool IsMakeGameStopJiFenTime;
 	bool IsMakeClientShowFinishTask;
 	int CountGameOver;
+	public static int ClientCountVal;
+	float LastTimeClientCout;
 	private static NetCtrl _Instance;
 	public static NetCtrl GetInstance()
 	{
@@ -219,6 +221,13 @@ public class NetCtrl : MonoBehaviour {
 
 	void Update()
 	{
+		if (Network.peerType == NetworkPeerType.Server) {
+			if (Time.time - LastTimeClientCout > 3f) {
+				LastTimeClientCout = Time.time;
+				SendClientCountVal();
+			}
+		}
+
 		if(NetworkViewCom.isMine && Network.isServer) {
 			if (!pcvr.bIsHardWare && Input.GetKeyUp(KeyCode.M)) {
 				NetCtrlMakeOtherClientShowFinishTask(1);
@@ -466,5 +475,20 @@ public class NetCtrl : MonoBehaviour {
 			}
 		}
 		XKTriggerGameOver.GetInstance().SpawnPlayerDaoDan(playerScript);
+	}
+
+	public static void ResetClientCountVal()
+	{
+		ClientCountVal = 0;
+	}
+
+	void SendClientCountVal()
+	{
+		NetworkViewCom.RPC("NetCtrlSendClientCountVal", RPCMode.OthersBuffered, Network.connections.Length);
+	}
+
+	[RPC] void NetCtrlSendClientCountVal(int val)
+	{
+		ClientCountVal = val;
 	}
 }

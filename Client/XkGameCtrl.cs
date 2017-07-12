@@ -62,8 +62,8 @@ public class XkGameCtrl : MonoBehaviour {
 	 */
 	[Range(1, 1000)] public int LJSRTKYouLiangDianMin = 50;
 	int YouLiangDianVal;
-	int YouLiangDianValP1;
-	int YouLiangDianValP2;
+	float YouLiangDianValP1;
+	float YouLiangDianValP2;
 	[Range(1, 99)] public int DaoDanNum = 50;
 	public GameObject FeiJiPlayer;
 	public AiMark FeiJiPlayerMark;
@@ -183,6 +183,7 @@ public class XkGameCtrl : MonoBehaviour {
 	void Awake()
 	{
 		_Instance = this;
+		NetCtrl.ResetClientCountVal();
 		if (pcvr.GetInstance() != null) {
 			pcvr.GetInstance().OpenFangXiangPanPower(PlayerEnum.Null);
 		}
@@ -1221,43 +1222,75 @@ public class XkGameCtrl : MonoBehaviour {
 				}
 			}
 		}
-		
+
+		float yldTmp = 0f;
 		if (IsActivePlayerOne && IsActivePlayerTwo) {
-			val = (int)(1.5f * val);
-			if (GameJiTaiSt == GameJiTaiType.FeiJiJiTai) {
-					val = (int)(2f * val);
+			switch (GameJiTaiSt) {
+			case GameJiTaiType.TanKeJiTai:
+				if (NetCtrl.ClientCountVal <= 1) {
+					yldTmp = 1.5f * val;
+				}
+				else {
+					yldTmp = 1.7f * val;
+				}
+				break;
+
+			case GameJiTaiType.FeiJiJiTai:
+				if (NetCtrl.ClientCountVal <= 1) {
+					yldTmp = 1.6f * val;
+				}
+				else {
+					yldTmp = 1.7f * val;
+				}
+				break;
 			}
 		} else {
-			if (GameJiTaiSt == GameJiTaiType.FeiJiJiTai) {
-				val = (int)(1.2f * val);
+			switch (GameJiTaiSt) {
+			case GameJiTaiType.TanKeJiTai:
+				if (NetCtrl.ClientCountVal <= 1) {
+					yldTmp = 1f * val;
+				}
+				else {
+					yldTmp = 1.1f * val;
+				}
+				break;
+
+			case GameJiTaiType.FeiJiJiTai:
+				if (NetCtrl.ClientCountVal <= 1) {
+					yldTmp = 1.2f * val;
+				}
+				else {
+					yldTmp = 1.3f * val;
+				}
+				break;
 			}
 		}
-		val = (int)(GameDiffVal * val);
+		yldTmp = GameDiffVal * yldTmp;
 
 		switch (playerSt) {
 		case PlayerEnum.PlayerOne:
-			YouLiangDianAddPOne += val;
-			YouLiangDianValP1 += val;
+			YouLiangDianAddPOne += (int)yldTmp;
+			YouLiangDianValP1 += yldTmp;
 			break;
 
 		case PlayerEnum.PlayerTwo:
-			YouLiangDianAddPTwo += val;
-			YouLiangDianValP2 += val;
+			YouLiangDianAddPTwo += (int)yldTmp;
+			YouLiangDianValP2 += yldTmp;
 			break;
 
 		default:
 			if (IsActivePlayerOne) {
-				YouLiangDianAddPOne += val;
-				YouLiangDianValP1 += val;
+				YouLiangDianAddPOne += (int)yldTmp;
+				YouLiangDianValP1 += yldTmp;
 			}
 			if (IsActivePlayerTwo) {
-				YouLiangDianAddPTwo += val;
-				YouLiangDianValP2 += val;
+				YouLiangDianAddPTwo += (int)yldTmp;
+				YouLiangDianValP2 += yldTmp;
 			}
 			break;
 		}
 
-		YouLiangDianVal += val;
+		YouLiangDianVal += (int)yldTmp;
 		int youLiangDianTmp = YouLiangDianMin;
 		if (IsActivePlayerOne && IsActivePlayerTwo) {
 			if (GameModeVal == GameMode.LianJi) {
@@ -1318,9 +1351,9 @@ public class XkGameCtrl : MonoBehaviour {
 				YouLiangDianValP2 -= youLiangDianTmp;
 			}
 			
-			valTmp = (float)YouLiangDianValP1 / youLiangDianTmp;
+			valTmp = YouLiangDianValP1 / youLiangDianTmp;
 			YouLiangAddCtrl.GetInstance().SetYouLiangSpriteAmount(valTmp, PlayerEnum.PlayerOne);
-			valTmp = (float)YouLiangDianValP2 / youLiangDianTmp;
+			valTmp = YouLiangDianValP2 / youLiangDianTmp;
 			YouLiangAddCtrl.GetInstance().SetYouLiangSpriteAmount(valTmp, PlayerEnum.PlayerTwo);
 			break;
 		}
