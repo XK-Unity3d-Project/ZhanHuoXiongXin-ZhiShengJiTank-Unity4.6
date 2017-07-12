@@ -1257,7 +1257,7 @@ public class XkGameCtrl : MonoBehaviour {
 
 			case GameJiTaiType.FeiJiJiTai:
 				if (NetCtrl.ClientCountVal <= 1) {
-					yldTmp = 1.2f * val;
+					yldTmp = 1.1f * val;
 				}
 				else {
 					yldTmp = 1.3f * val;
