@@ -96,7 +96,7 @@ public class ZhunXingCtrl : MonoBehaviour {
 			}
 			
 			float sx = (1360f *(float)iScreenH) / (768f * (float)iScreenW);
-			if (GameMovieCtrl.IsThreeScreenGame) {
+			if (pcvr.PerScreenWH > pcvr.PerScreenWHCen) {
 				sx = (1360f *(float)iScreenH) / (768f * (float)iScreenW / 3f);
 			}
 			//ScreenLog.Log("sx **** " + sx + ", Screen: " + iScreenW + ", " + iScreenH );
