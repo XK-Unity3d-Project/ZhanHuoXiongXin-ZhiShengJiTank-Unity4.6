@@ -9,6 +9,10 @@ public class HardwareCheckCtrl : MonoBehaviour
 	 * 直升机坦克联合作战游戏在硬件测试界面隐藏的对象.
 	 */
 	public GameObject[] HiddenObjLink;
+	/**
+	 * 用来控制7和8号气囊按键调换位置.
+	 */
+	public Transform[] QiNangBtTr;
 	public UILabel[] BiZhiLable;
 	public UILabel[] QiangPosLable;
 	public UILabel[] QiangZDLable;
@@ -35,6 +39,11 @@ public class HardwareCheckCtrl : MonoBehaviour
 					HiddenObjLink[i].SetActive(false);
 				}
 			}
+
+			Vector3 lpos1 = QiNangBtTr[0].localPosition;
+			Vector3 lpos2 = QiNangBtTr[1].localPosition;
+			QiNangBtTr[0].localPosition = lpos2;
+			QiNangBtTr[1].localPosition = lpos1;
 		}
 	}
 
