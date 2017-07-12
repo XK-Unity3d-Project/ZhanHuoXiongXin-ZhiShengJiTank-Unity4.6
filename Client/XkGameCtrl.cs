@@ -1231,7 +1231,7 @@ public class XkGameCtrl : MonoBehaviour {
 					yldTmp = 1.5f * val;
 				}
 				else {
-					yldTmp = 1.7f * val;
+					yldTmp = 1.6f * val;
 				}
 				break;
 

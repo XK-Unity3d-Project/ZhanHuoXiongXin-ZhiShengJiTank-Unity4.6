@@ -17,6 +17,9 @@ public class NetCtrl : MonoBehaviour {
 	bool IsMakeGameStopJiFenTime;
 	bool IsMakeClientShowFinishTask;
 	int CountGameOver;
+	/**
+	 * 当前加入联机游戏的玩家数量.
+	 */
 	public static int ClientCountVal;
 	float LastTimeClientCout;
 	private static NetCtrl _Instance;
