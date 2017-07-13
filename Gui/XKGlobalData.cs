@@ -136,6 +136,12 @@ public class XKGlobalData {
 			SetPanelUiRoot.GetInstance().SetCoinStartLabelInfo();
 		}
 		pcvr.SetIsPlayerActivePcvr();
+
+		if (XKGlobalData.CoinPlayerOne < XKGlobalData.GameNeedCoin) {
+			if (DaoJiShiCtrl.GetInstance() != null) {
+				DaoJiShiCtrl.GetInstance().ResetDaoJiShi();
+			}
+		}
 	}
 
 	public static void SetCoinPlayerTwo(int coin)
@@ -152,6 +158,12 @@ public class XKGlobalData {
 			SetPanelUiRoot.GetInstance().SetCoinStartLabelInfo();
 		}
 		pcvr.SetIsPlayerActivePcvr();
+		
+		if (XKGlobalData.CoinPlayerTwo < XKGlobalData.GameNeedCoin) {
+			if (DaoJiShiCtrl.GetInstance() != null) {
+				DaoJiShiCtrl.GetInstance().ResetDaoJiShi();
+			}
+		}
 	}
 
 	public static void SetCoinPlayerThree(int coin)

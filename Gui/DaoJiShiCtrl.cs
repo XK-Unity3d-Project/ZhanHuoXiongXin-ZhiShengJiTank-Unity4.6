@@ -35,7 +35,7 @@ public class DaoJiShiCtrl : MonoBehaviour {
 		}
 		IsPlayDaoJishi = true;
 		DaoJiShiCount = 9;
-		DaoJiShiSprite.spriteName = "daoJiShi9";
+		DaoJiShiSprite.spriteName = "daoJiShi"+DaoJiShiCount;
 		DaoJiShiObj.SetActive(true);
 		ContinueGameObj.SetActive(true);
 		ShowDaoJiShiInfo();
@@ -90,6 +90,7 @@ public class DaoJiShiCtrl : MonoBehaviour {
 		}
 
 		if (DaoJiShiCount <= 1) {
+			DaoJiShiCount = 0;
 			StopDaoJiShi();
 			GameOverCtrl.GetInstance().ShowGameOver();
 			return;
@@ -107,5 +108,22 @@ public class DaoJiShiCtrl : MonoBehaviour {
 	public bool GetIsPlayDaoJishi()
 	{
 		return IsPlayDaoJishi;
+	}
+
+	/**
+	 * 重置倒计时为5,当玩家有续币动作时.
+	 */
+	public void ResetDaoJiShi()
+	{
+		if (!IsPlayDaoJishi) {
+			return;
+		}
+
+		if (DaoJiShiCount >= 5) {
+			return;
+		}
+		DaoJiShiCount = 5;
+		DaoJiShiSprite.spriteName = "daoJiShi"+DaoJiShiCount;
+		ShowDaoJiShiInfo();
 	}
 }
