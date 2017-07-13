@@ -29,6 +29,9 @@ public class GameOverCtrl : MonoBehaviour {
 		GameOverObj.SetActive(true);
 		Invoke("HiddenGameOver", 3f);
 		MakeServerShowGameOver();
+		
+		pcvr.CloseGunZhenDongDengJi();
+		pcvr.CloseAllQiNangArray();
 	}
 
 	void HiddenGameOver()

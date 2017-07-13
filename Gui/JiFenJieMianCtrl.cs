@@ -65,6 +65,9 @@ public class JiFenJieMianCtrl : MonoBehaviour {
 		}
 		FinishTaskObj.SetActive(true);
 		XKGlobalData.GetInstance().PlayAudioRenWuOver();
+		
+		pcvr.CloseGunZhenDongDengJi();
+		pcvr.CloseAllQiNangArray();
 	}
 
 	public void DelayActiveJiFenJieMian()
