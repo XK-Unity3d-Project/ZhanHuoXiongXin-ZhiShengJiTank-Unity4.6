@@ -373,6 +373,9 @@ QiNangArray[0]            QiNangArray[1]
 	 */
 	public static void CloseAllQiNangArray(int key = 0)
 	{
+		if (Instance != null) {
+			Instance.StopPlayLedTx();
+		}
 		for (int i = 0; i < QiNangArray.Length;  i++) {
 			QiNangArray[i] = 0;
 		}
@@ -690,7 +693,9 @@ QiNangArray[0]            QiNangArray[1]
 				QiNangArray[0] = 1;
 				QiNangArray[3] = 1;
 				QiNangArray[4] = 1;
-				QiNangArray[6] = 1;
+				if (!XKPlayerDongGanCtrl.IsQiNangFeiJi) {
+					QiNangArray[6] = 1;
+				}
 				break;
 
 		case AppGameType.LianJiTanKe:
@@ -748,20 +753,20 @@ QiNangArray[0]            QiNangArray[1]
 			case 1:
 					QiNangArray[0] = 0;
 					QiNangArray[4] = 0;
-					QiNangArray[6] = 0;
+					//QiNangArray[6] = 0;
 					break;
 
 			case 2:
 					QiNangArray[3] = 0;
 					QiNangArray[4] = 0;
-					QiNangArray[6] = 0;
+					//QiNangArray[6] = 0;
 					break;
 
 			default:
 					QiNangArray[0] = 0;
 					QiNangArray[3] = 0;
 					QiNangArray[4] = 0;
-					QiNangArray[6] = 0;
+					//QiNangArray[6] = 0;
 					break;
 			}
 			break;
@@ -819,7 +824,9 @@ QiNangArray[0]            QiNangArray[1]
 				QiNangArray[1] = 1;
 				QiNangArray[2] = 1;
 				QiNangArray[5] = 1;
-				QiNangArray[7] = 1;
+				if (!XKPlayerDongGanCtrl.IsQiNangFeiJi) {
+					QiNangArray[7] = 1;
+				}
 				break;
 
 		case AppGameType.LianJiTanKe:
@@ -877,20 +884,20 @@ QiNangArray[0]            QiNangArray[1]
 			case 1:
 					QiNangArray[1] = 0;
 					QiNangArray[5] = 0;
-					QiNangArray[7] = 0;
+					//QiNangArray[7] = 0;
 					break;
 
 			case 2:
 					QiNangArray[2] = 0;
 					QiNangArray[5] = 0;
-					QiNangArray[7] = 0;
+					//QiNangArray[7] = 0;
 					break;
 
 			default:
 					QiNangArray[1] = 0;
 					QiNangArray[2] = 0;
 					QiNangArray[5] = 0;
-					QiNangArray[7] = 0;
+					//QiNangArray[7] = 0;
 					break;
 			}
 			break;
@@ -934,7 +941,49 @@ QiNangArray[0]            QiNangArray[1]
 		}
 		CheckMovePlayerZuoYi();
 	}
-	
+
+	bool IsPlayLedTX;
+	/**
+	 * 将气囊7号信号用于控制前面灯，8号信号用于控制尾灯(坦克,直升机IO板信号管脚均一致).
+	 */
+	public void StartPlayLedTX()
+	{
+		if (IsPlayLedTX) {
+			return;
+		}
+		IsPlayLedTX = true;
+		StartCoroutine(PlayLedTX());
+	}
+
+	public void StopPlayLedTx()
+	{
+		if (!IsPlayLedTX) {
+			return;
+		}
+		IsPlayLedTX = false;
+		StopCoroutine(PlayLedTX());
+		QiNangArray[6] = 0;
+		QiNangArray[7] = 0;
+	}
+
+	public IEnumerator PlayLedTX()
+	{
+		float timeVal = UnityEngine.Random.Range(1f, 6f);
+		int randNum = UnityEngine.Random.Range(0, 100) % 4;
+		do {
+			QiNangArray[6] = (byte)(randNum & 0x01);
+			QiNangArray[7] = (byte)((randNum & 0x02) >> 1);
+			if (QiNangArray[6] == 0 && QiNangArray[7] == 0) {
+				timeVal = 1f;
+			}
+			yield return new WaitForSeconds(timeVal);
+			timeVal = UnityEngine.Random.Range(1f, 6f);
+			randNum = UnityEngine.Random.Range(0, 100) % 4;
+		} while(IsPlayLedTX);
+		QiNangArray[6] = 0;
+		QiNangArray[7] = 0;
+	}
+
 	public static bool IsPlayerHitShake;
 	public void OnPlayerHitShake()
 	{
