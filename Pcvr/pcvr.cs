@@ -496,6 +496,10 @@ QiNangArray[0]            QiNangArray[1]
 			default:
 					QiNangArray[0] = 0;
 					QiNangArray[1] = 0;
+					if (XKPlayerDongGanCtrl.IsQiNangFeiJi) {
+						QiNangArray[4] = 0;
+						QiNangArray[5] = 0;
+					}
 					break;
 			}
 			break;
@@ -625,6 +629,10 @@ QiNangArray[0]            QiNangArray[1]
 			default:
 					QiNangArray[2] = 0;
 					QiNangArray[3] = 0;
+					if (XKPlayerDongGanCtrl.IsQiNangFeiJi) {
+						QiNangArray[4] = 0;
+						QiNangArray[5] = 0;
+					}
 					break;
 			}
 			break;
