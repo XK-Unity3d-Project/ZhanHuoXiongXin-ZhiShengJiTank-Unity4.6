@@ -349,22 +349,16 @@ QiNangArray[3]			QiNangArray[2]
 QiNangArray[4]			QiNangArray[5]
 QiNangArray[7]			QiNangArray[6]
 
-联机版坦克8气囊(该方案可能要取消).
-******************.显示器.******************
-QiNangArray[0]     QiNangArray[4]       QiNangArray[1]
-QiNangArray[7]                          QiNangArray[5]
-QiNangArray[3]     QiNangArray[6]       QiNangArray[2]
-
-联机版坦克可能用2气囊(每个玩家座椅下装一个).
+联机版坦克用2气囊(每个玩家座椅下装一个).
 ******************.显示器.******************
 QiNangArray[0]            QiNangArray[1]
 
 联机版直升机准备采用6个气囊,布局方式暂定为:
 ******************.显示器.******************
 1                                          2
-5&7                                      6&8
+5                                          6
 4                                          3
-5和7状态一致,6和8状态一致,之所以布局为此,目的是便于在现有的台儿庄机台测试飞机动感!
+7号信号用于控制前面灯,8号信号用于控制尾灯(坦克,直升机IO板信号管脚均一致)
 	 */
 	public static byte[] QiNangArray = {0, 0, 0, 0, 0, 0, 0, 0};
 	/**
