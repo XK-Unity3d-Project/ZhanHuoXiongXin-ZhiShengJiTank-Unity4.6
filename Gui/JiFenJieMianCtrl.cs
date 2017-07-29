@@ -145,10 +145,6 @@ public class JiFenJieMianCtrl : MonoBehaviour {
 
 	public void StopJiFenTime()
 	{
-		if (IsInvoking("DelayStopJiFenPanel")) {
-			CancelInvoke("DelayStopJiFenPanel");
-		}
-
 		if (Time.realtimeSinceStartup - TimeStartVal < 8f) {
 			Debug.Log("StopJiFenTime -> TimeStartVal was wrong!");
 			return;

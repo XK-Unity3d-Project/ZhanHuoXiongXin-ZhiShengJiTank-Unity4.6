@@ -13,6 +13,11 @@ public class PlayerKillNumCtrl : MonoBehaviour {
 	GameObject KillCBObj;
 	bool IsShowKillNum;
 	float TimeDelayVal = 1f;
+	static bool IsQiangZhiShowKillNum;
+	/**
+	 * 保护时间,防止积分界面卡死导致游戏无法回到循环动画.
+	 */
+	float TimeLastVal = 0f;
 	static bool IsEndPlayerKillNumCartoon;
 	static PlayerKillNumCtrl InstanceOne;
 	public static PlayerKillNumCtrl GetInstanceOne()
@@ -39,6 +44,7 @@ public class PlayerKillNumCtrl : MonoBehaviour {
 			break;
 		}
 		IsEndPlayerKillNumCartoon = false;
+		IsQiangZhiShowKillNum = false;
 		KillNpcObj = KillNpcNum[0].transform.parent.gameObject;
 		KillTKObj = KillTKNum[0].transform.parent.gameObject;
 		KillFJObj = KillFJNum[0].transform.parent.gameObject;
@@ -49,12 +55,42 @@ public class PlayerKillNumCtrl : MonoBehaviour {
 		KillCBObj.SetActive(false);
 	}
 
+	void Update()
+	{
+		if (!IsShowKillNum) {
+			return;
+		}
+
+		if (IsEndPlayerKillNumCartoon) {
+			return;
+		}
+
+		if (IsQiangZhiShowKillNum && Time.time - TimeLastVal > 2f) {
+			EndPlayerKillNumCartoon();
+			return;
+		}
+
+		if (Time.time - TimeLastVal >= 4.5f * TimeDelayVal && !IsQiangZhiShowKillNum) {
+			IsQiangZhiShowKillNum = true;
+			TimeLastVal = Time.time;
+			InstanceOne.StopKillNpcNumCartoon(1);
+			InstanceOne.StopKillTKNumCartoon(1);
+			InstanceOne.StopKillFJNumCartoon(1);
+			InstanceOne.StopKillCBNumCartoon(1);
+			InstanceTwo.StopKillNpcNumCartoon(1);
+			InstanceTwo.StopKillTKNumCartoon(1);
+			InstanceTwo.StopKillFJNumCartoon(1);
+			InstanceTwo.StopKillCBNumCartoon(1);
+		}
+	}
+
 	public void ShowPlayerKillNum()
 	{
 		if (IsShowKillNum) {
 			return;
 		}
 		IsShowKillNum = true;
+		TimeLastVal = Time.time;
 		ShowPlayerKillNpcNum();
 	}
 
@@ -65,18 +101,15 @@ public class PlayerKillNumCtrl : MonoBehaviour {
 		}
 		KillNpcObj.SetActive(true);
 		XKGlobalData.GetInstance().PlayAudioJiFenGunDong();
-		Invoke("StopKillNpcNumCartoon", TimeDelayVal);
+		Invoke("StopKillNpcNum", TimeDelayVal);
 	}
-	
-	/*ShiBingNumPOne = 0;
-	CheLiangNumPOne = 0;
-	ChuanBoNumPOne = 0;
-	FeiJiNumPOne = 0;
-	ShiBingNumPTwo = 0;
-	CheLiangNumPTwo = 0;
-	ChuanBoNumPTwo = 0;
-	FeiJiNumPTwo = 0;*/
-	void StopKillNpcNumCartoon()
+
+	void StopKillNpcNum()
+	{
+		StopKillNpcNumCartoon();
+	}
+
+	void StopKillNpcNumCartoon(byte key = 0)
 	{
 		int max = KillNpcNum.Length;
 		UISpriteAnimation AniCom = null;
@@ -116,7 +149,12 @@ public class PlayerKillNumCtrl : MonoBehaviour {
 			KillNpcNum[i].spriteName = "KillNum_" + valTmp;
 			numVal -= valTmp * powVal;
 		}
-		ShowPlayerKillTKNum();
+		if (key == 0) {
+			ShowPlayerKillTKNum();
+		}
+		else {
+			KillNpcObj.SetActive(true);
+		}
 	}
 
 	void ShowPlayerKillTKNum()
@@ -125,10 +163,15 @@ public class PlayerKillNumCtrl : MonoBehaviour {
 			return;
 		}
 		KillTKObj.SetActive(true);
-		Invoke("StopKillTKNumCartoon", TimeDelayVal);
+		Invoke("StopKillTKNum", TimeDelayVal);
+	}
+	
+	void StopKillTKNum()
+	{
+		StopKillTKNumCartoon();
 	}
 
-	void StopKillTKNumCartoon()
+	void StopKillTKNumCartoon(byte key = 0)
 	{
 		int max = KillTKNum.Length;
 		UISpriteAnimation AniCom = null;
@@ -168,7 +211,12 @@ public class PlayerKillNumCtrl : MonoBehaviour {
 			KillTKNum[i].spriteName = "KillNum_" + valTmp;
 			numVal -= valTmp * powVal;
 		}
-		ShowPlayerKillFJNum();
+		if (key == 0) {
+			ShowPlayerKillFJNum();
+		}
+		else {
+			KillTKObj.SetActive(true);
+		}
 	}
 
 	void ShowPlayerKillFJNum()
@@ -177,10 +225,15 @@ public class PlayerKillNumCtrl : MonoBehaviour {
 			return;
 		}
 		KillFJObj.SetActive(true);
-		Invoke("StopKillFJNumCartoon", TimeDelayVal);
+		Invoke("StopKillFJNum", TimeDelayVal);
 	}
 	
-	void StopKillFJNumCartoon()
+	void StopKillFJNum()
+	{
+		StopKillFJNumCartoon();
+	}
+
+	void StopKillFJNumCartoon(byte key = 0)
 	{
 		int max = KillFJNum.Length;
 		UISpriteAnimation AniCom = null;
@@ -220,7 +273,12 @@ public class PlayerKillNumCtrl : MonoBehaviour {
 			KillFJNum[i].spriteName = "KillNum_" + valTmp;
 			numVal -= valTmp * powVal;
 		}
-		ShowPlayerKillCBNum();
+		if (key == 0) {
+			ShowPlayerKillCBNum();
+		}
+		else {
+			KillFJObj.SetActive(true);
+		}
 	}
 
 	void ShowPlayerKillCBNum()
@@ -229,10 +287,15 @@ public class PlayerKillNumCtrl : MonoBehaviour {
 			return;
 		}
 		KillCBObj.SetActive(true);
-		Invoke("StopKillCBNumCartoon", TimeDelayVal);
+		Invoke("StopKillCBNum", TimeDelayVal);
 	}
 	
-	void StopKillCBNumCartoon()
+	void StopKillCBNum()
+	{
+		StopKillCBNumCartoon();
+	}
+
+	void StopKillCBNumCartoon(byte key = 0)
 	{
 		int max = KillCBNum.Length;
 		UISpriteAnimation AniCom = null;
@@ -272,7 +335,12 @@ public class PlayerKillNumCtrl : MonoBehaviour {
 			KillCBNum[i].spriteName = "KillNum_" + valTmp;
 			numVal -= valTmp * powVal;
 		}
-		EndPlayerKillNumCartoon();
+		if (key == 0) {
+			EndPlayerKillNumCartoon();
+		}
+		else {
+			KillCBObj.SetActive(true);
+		}
 	}
 
 	void EndPlayerKillNumCartoon()
