@@ -11,6 +11,10 @@
 /**
  * LIAN_JI_TANK_2QN直升机坦克联合作战机台2个座椅气囊.
  */
+#define LIAN_JI_FEIJI_2QN
+/**
+ * LIAN_JI_FEIJI_2QN直升机坦克联合作战机台2个座椅气囊.
+ */
 
 using UnityEngine;
 using System.Collections;
@@ -20,6 +24,9 @@ public class pcvr : MonoBehaviour {
 	public static bool bIsHardWare = true;
 	public static bool IsTestPCKey = false;
 	public static bool IsTestHardWareError = false;
+	/// <summary>
+	/// 坦克或飞机只在座椅下添加气囊.
+	/// </summary>
 	public static bool IsUse2QNLinkTank = false;
 	public static Vector3 CrossPositionOne;
 	public static Vector3 CrossPositionTwo;
@@ -239,6 +246,7 @@ public class pcvr : MonoBehaviour {
 		if (GameTypeCtrl.AppTypeStatic == AppGameType.LianJiServer) {
 			return;
 		}
+		CheckFeiJiZuoYiQiNangTime();
 		CheckCrossPositionPOne();
 		CheckCrossPositionPTwo();
 		CheckIsPlayerActivePcvr();
@@ -392,7 +400,37 @@ QiNangArray[0]            QiNangArray[1]
 	{
 		DongGanState = 1;
 	}
-	
+
+
+	float TimeLastFeiJiZuoYiQN;
+	void CheckFeiJiZuoYiQiNangTime()
+	{
+		if (Time.time - TimeLastFeiJiZuoYiQN < 2f) {
+			return;
+		}
+		TimeLastFeiJiZuoYiQN = Time.time;
+		QiNangArray[0] = 0;
+		QiNangArray[1] = 0;
+	}
+
+	void OpenFeiJiZuoYiQiNang()
+	{
+		TimeLastFeiJiZuoYiQN = Time.time;
+		if (XkGameCtrl.IsActivePlayerOne) {
+			QiNangArray[0] = 1;
+		}
+		else {
+			QiNangArray[0] = 0;
+		}
+		
+		if (XkGameCtrl.IsActivePlayerTwo) {
+			QiNangArray[1] = 1;
+		}
+		else {
+			QiNangArray[1] = 0;
+		}
+	}
+
 	static bool IsOpenQiNangQian;
 	static bool IsOpenQiNangHou;
 	static bool IsOpenQiNangZuo;
@@ -405,11 +443,18 @@ QiNangArray[0]            QiNangArray[1]
 		IsOpenQiNangQian = true;
 
 		switch (GameTypeCtrl.AppTypeStatic) {
+		#if LIAN_JI_FEIJI_2QN
 		case AppGameType.LianJiFeiJi:
 		case AppGameType.DanJiFeiJi:
-				QiNangArray[0] = 1;
-				QiNangArray[1] = 1;
-				break;
+			Instance.OpenFeiJiZuoYiQiNang();
+			break;
+		#else
+		case AppGameType.LianJiFeiJi:
+		case AppGameType.DanJiFeiJi:
+			QiNangArray[0] = 1;
+			QiNangArray[1] = 1;
+			break;
+		#endif
 
 		#if LIAN_JI_TANK_2QN
 		case AppGameType.LianJiTanKe:
@@ -478,41 +523,40 @@ QiNangArray[0]            QiNangArray[1]
 		IsOpenQiNangQian = false;
 		
 		switch (GameTypeCtrl.AppTypeStatic) {
+		#if LIAN_JI_FEIJI_2QN
+		case AppGameType.LianJiFeiJi:
+		case AppGameType.DanJiFeiJi:
+			Instance.OpenFeiJiZuoYiQiNang();
+			break;
+		#else
 		case AppGameType.LianJiFeiJi:
 		case AppGameType.DanJiFeiJi:
 			switch (key) {
 			case 1:
-					QiNangArray[0] = 0;
-					break;
-
+				QiNangArray[0] = 0;
+				break;
+				
 			case 2:
-					QiNangArray[1] = 0;
-					break;
-
+				QiNangArray[1] = 0;
+				break;
+				
 			default:
-					QiNangArray[0] = 0;
-					QiNangArray[1] = 0;
-					if (XKPlayerDongGanCtrl.IsQiNangDanBian) {
-						QiNangArray[4] = 0;
-						QiNangArray[5] = 0;
-					}
-					break;
+				QiNangArray[0] = 0;
+				QiNangArray[1] = 0;
+				if (XKPlayerDongGanCtrl.IsQiNangDanBian) {
+					QiNangArray[4] = 0;
+					QiNangArray[5] = 0;
+				}
+				break;
 			}
 			break;
+		#endif
 
-			#if LIAN_JI_TANK_2QN
-			case AppGameType.LianJiTanKe:
-			case AppGameType.DanJiTanKe:
-					QiNangArray[0] = 0;
-					QiNangArray[1] = 0;
-					break;
-			#else
 		case AppGameType.LianJiTanKe:
 		case AppGameType.DanJiTanKe:
 			QiNangArray[0] = 0;
 			QiNangArray[1] = 0;
 			break;
-			#endif
 		
 		default:
 			switch (key) {
@@ -544,11 +588,18 @@ QiNangArray[0]            QiNangArray[1]
 		IsOpenQiNangHou = true;
 		
 		switch (GameTypeCtrl.AppTypeStatic) {
+		#if LIAN_JI_FEIJI_2QN
 		case AppGameType.LianJiFeiJi:
 		case AppGameType.DanJiFeiJi:
-				QiNangArray[2] = 1;
-				QiNangArray[3] = 1;
-				break;
+			Instance.OpenFeiJiZuoYiQiNang();
+			break;
+		#else
+		case AppGameType.LianJiFeiJi:
+		case AppGameType.DanJiFeiJi:
+			QiNangArray[2] = 1;
+			QiNangArray[3] = 1;
+			break;
+		#endif
 
 		case AppGameType.LianJiTanKe:
 		case AppGameType.DanJiTanKe:
@@ -598,27 +649,34 @@ QiNangArray[0]            QiNangArray[1]
 		IsOpenQiNangHou = false;
 		
 		switch (GameTypeCtrl.AppTypeStatic) {
-			case AppGameType.LianJiFeiJi:
-			case AppGameType.DanJiFeiJi:
+		#if LIAN_JI_FEIJI_2QN
+		case AppGameType.LianJiFeiJi:
+		case AppGameType.DanJiFeiJi:
+			Instance.OpenFeiJiZuoYiQiNang();
+			break;
+		#else
+		case AppGameType.LianJiFeiJi:
+		case AppGameType.DanJiFeiJi:
 			switch (key) {
 			case 1:
-					QiNangArray[3] = 0;
-					break;
-
+				QiNangArray[3] = 0;
+				break;
+				
 			case 2:
-					QiNangArray[2] = 0;
-					break;
-
+				QiNangArray[2] = 0;
+				break;
+				
 			default:
-					QiNangArray[2] = 0;
-					QiNangArray[3] = 0;
-					if (XKPlayerDongGanCtrl.IsQiNangDanBian) {
-						QiNangArray[4] = 0;
-						QiNangArray[5] = 0;
-					}
-					break;
+				QiNangArray[2] = 0;
+				QiNangArray[3] = 0;
+				if (XKPlayerDongGanCtrl.IsQiNangDanBian) {
+					QiNangArray[4] = 0;
+					QiNangArray[5] = 0;
+				}
+				break;
 			}
 			break;
+		#endif
 
 		case AppGameType.LianJiTanKe:
 		case AppGameType.DanJiTanKe:
@@ -656,15 +714,22 @@ QiNangArray[0]            QiNangArray[1]
 		IsOpenQiNangZuo = true;
 		
 		switch (GameTypeCtrl.AppTypeStatic) {
+		#if LIAN_JI_FEIJI_2QN
 		case AppGameType.LianJiFeiJi:
 		case AppGameType.DanJiFeiJi:
-				QiNangArray[0] = 1;
-				QiNangArray[3] = 1;
-				QiNangArray[4] = 1;
-				if (!XKPlayerDongGanCtrl.IsQiNangDanBian) {
-					QiNangArray[6] = 1;
-				}
-				break;
+			Instance.OpenFeiJiZuoYiQiNang();
+			break;
+		#else
+		case AppGameType.LianJiFeiJi:
+		case AppGameType.DanJiFeiJi:
+			QiNangArray[0] = 1;
+			QiNangArray[3] = 1;
+			QiNangArray[4] = 1;
+			if (!XKPlayerDongGanCtrl.IsQiNangDanBian) {
+				QiNangArray[6] = 1;
+			}
+			break;
+		#endif
 
 		case AppGameType.LianJiTanKe:
 		case AppGameType.DanJiTanKe:
@@ -716,29 +781,36 @@ QiNangArray[0]            QiNangArray[1]
 		IsOpenQiNangZuo = false;
 		
 		switch (GameTypeCtrl.AppTypeStatic) {
-			case AppGameType.LianJiFeiJi:
-			case AppGameType.DanJiFeiJi:
+		#if LIAN_JI_FEIJI_2QN
+		case AppGameType.LianJiFeiJi:
+		case AppGameType.DanJiFeiJi:
+			Instance.OpenFeiJiZuoYiQiNang();
+			break;
+		#else
+		case AppGameType.LianJiFeiJi:
+		case AppGameType.DanJiFeiJi:
 			switch (key) {
 			case 1:
-					QiNangArray[0] = 0;
-					QiNangArray[4] = 0;
-					//QiNangArray[6] = 0;
-					break;
-
+				QiNangArray[0] = 0;
+				QiNangArray[4] = 0;
+				//QiNangArray[6] = 0;
+				break;
+				
 			case 2:
-					QiNangArray[3] = 0;
-					QiNangArray[4] = 0;
-					//QiNangArray[6] = 0;
-					break;
-
+				QiNangArray[3] = 0;
+				QiNangArray[4] = 0;
+				//QiNangArray[6] = 0;
+				break;
+				
 			default:
-					QiNangArray[0] = 0;
-					QiNangArray[3] = 0;
-					QiNangArray[4] = 0;
-					//QiNangArray[6] = 0;
-					break;
+				QiNangArray[0] = 0;
+				QiNangArray[3] = 0;
+				QiNangArray[4] = 0;
+				//QiNangArray[6] = 0;
+				break;
 			}
 			break;
+		#endif
 
 		case AppGameType.LianJiTanKe:
 		case AppGameType.DanJiTanKe:
@@ -777,15 +849,22 @@ QiNangArray[0]            QiNangArray[1]
 		IsOpenQiNangYou = true;
 		
 		switch (GameTypeCtrl.AppTypeStatic) {
+		#if LIAN_JI_FEIJI_2QN
 		case AppGameType.LianJiFeiJi:
 		case AppGameType.DanJiFeiJi:
-				QiNangArray[1] = 1;
-				QiNangArray[2] = 1;
-				QiNangArray[5] = 1;
-				if (!XKPlayerDongGanCtrl.IsQiNangDanBian) {
-					QiNangArray[7] = 1;
-				}
-				break;
+			Instance.OpenFeiJiZuoYiQiNang();
+			break;
+		#else
+		case AppGameType.LianJiFeiJi:
+		case AppGameType.DanJiFeiJi:
+			QiNangArray[1] = 1;
+			QiNangArray[2] = 1;
+			QiNangArray[5] = 1;
+			if (!XKPlayerDongGanCtrl.IsQiNangDanBian) {
+				QiNangArray[7] = 1;
+			}
+			break;
+		#endif
 
 		case AppGameType.LianJiTanKe:
 		case AppGameType.DanJiTanKe:
@@ -837,29 +916,36 @@ QiNangArray[0]            QiNangArray[1]
 		IsOpenQiNangYou = false;
 		
 		switch (GameTypeCtrl.AppTypeStatic) {
-			case AppGameType.LianJiFeiJi:
-			case AppGameType.DanJiFeiJi:
+		#if LIAN_JI_FEIJI_2QN
+		case AppGameType.LianJiFeiJi:
+		case AppGameType.DanJiFeiJi:
+			Instance.OpenFeiJiZuoYiQiNang();
+			break;
+		#else
+		case AppGameType.LianJiFeiJi:
+		case AppGameType.DanJiFeiJi:
 			switch (key) {
 			case 1:
-					QiNangArray[1] = 0;
-					QiNangArray[5] = 0;
-					//QiNangArray[7] = 0;
-					break;
-
+				QiNangArray[1] = 0;
+				QiNangArray[5] = 0;
+				//QiNangArray[7] = 0;
+				break;
+				
 			case 2:
-					QiNangArray[2] = 0;
-					QiNangArray[5] = 0;
-					//QiNangArray[7] = 0;
-					break;
-
+				QiNangArray[2] = 0;
+				QiNangArray[5] = 0;
+				//QiNangArray[7] = 0;
+				break;
+				
 			default:
-					QiNangArray[1] = 0;
-					QiNangArray[2] = 0;
-					QiNangArray[5] = 0;
-					//QiNangArray[7] = 0;
-					break;
+				QiNangArray[1] = 0;
+				QiNangArray[2] = 0;
+				QiNangArray[5] = 0;
+				//QiNangArray[7] = 0;
+				break;
 			}
 			break;
+		#endif
 
 		case AppGameType.LianJiTanKe:
 		case AppGameType.DanJiTanKe:
