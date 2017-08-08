@@ -1,10 +1,10 @@
-﻿#define QI_NANG_FEI_JI
-//QI_NANG_FEI_JI 该定义控制飞机气囊逻辑为只打开四边型的某一边.
+﻿#define QI_NANG_DAN_BIAN
+//QI_NANG_DAN_BIAN 该定义控制飞机气囊逻辑为只打开四边型的某一边.
 using UnityEngine;
 using System.Collections;
 
 public class XKPlayerDongGanCtrl : MonoBehaviour {
-	public static bool IsQiNangFeiJi;
+	public static bool IsQiNangDanBian;
 	public PlayerTypeEnum PlayerSt = PlayerTypeEnum.TanKe;
 	/**
 QiNangStateTK[0] -> 前气囊
@@ -37,8 +37,8 @@ QiNangStateFJ[3] -> 右气囊
 				enabled = false;
 		}
 
-		#if QI_NANG_FEI_JI
-		IsQiNangFeiJi = true;
+		#if QI_NANG_DAN_BIAN
+		IsQiNangDanBian = true;
 		#endif
 	}
 
@@ -89,6 +89,15 @@ QiNangStateFJ[3] -> 右气囊
 			eulerAngleX = EulerAngle.x;
 			eulerAngleZ = EulerAngle.z;
 			offsetAngle = 0f;
+			#if QI_NANG_DAN_BIAN
+			if (Mathf.Abs(eulerAngleX) >= Mathf.Abs(eulerAngleZ)) {
+				eulerAngleZ = 0;
+			}
+			else {
+				eulerAngleX = 0;
+			}
+			#endif
+
 			if (Mathf.Abs(eulerAngleX) <= offsetAngle) {
 				//前后气囊放气.
 				if (KeyQHQiNangState != 0) {
@@ -147,7 +156,7 @@ QiNangStateFJ[3] -> 右气囊
 			eulerAngleZ = EulerAngle.z;
 			offsetAngle = 2f;
 			
-			#if QI_NANG_FEI_JI
+			#if QI_NANG_DAN_BIAN
 			if (Mathf.Abs(eulerAngleX) >= Mathf.Abs(eulerAngleZ)) {
 				eulerAngleZ = 0;
 			}
@@ -216,33 +225,73 @@ QiNangStateFJ[3] -> 右气囊
 								QiNangStateTK[0] = 0;
 								QiNangStateTK[1] = 0;
 								if (KeyZYQiNangState == 0) {
-										if (!pcvr.IsUse2QNLinkTank) {
-											pcvr.CloseQiNangQian();
-											pcvr.CloseQiNangHou();
-										}
+									pcvr.CloseQiNangQian();
+									pcvr.CloseQiNangHou();
 								}
+//								QiNangStateTK[0] = 0;
+//								QiNangStateTK[1] = 0;
+//								if (KeyZYQiNangState == 0) {
+//										if (!pcvr.IsUse2QNLinkTank) {
+//											pcvr.CloseQiNangQian();
+//											pcvr.CloseQiNangHou();
+//										}
+//								}
 								break;
 						case 1:
 								QiNangStateTK[0] = 0;
 								QiNangStateTK[1] = 1;
-								if (!pcvr.IsUse2QNLinkTank) {
-									pcvr.OpenQiNangHou();
-									pcvr.CloseQiNangQian(KeyZYQiNangState);
+								if (IsQiNangDanBian) {
+									pcvr.OpenQiNangZuo();
+									pcvr.CloseQiNangZuo();
+									pcvr.OpenQiNangYou();
+									pcvr.CloseQiNangYou();
+									pcvr.OpenQiNangQian();
+									pcvr.CloseQiNangHou(0);
 								}
+								pcvr.OpenQiNangHou();
+								#if QI_NANG_DAN_BIAN
+								pcvr.CloseQiNangQian(0);
+								#else
+								pcvr.CloseQiNangQian(KeyZYQiNangState);
+								#endif
+
+//								QiNangStateTK[0] = 0;
+//								QiNangStateTK[1] = 1;
+//								if (!pcvr.IsUse2QNLinkTank) {
+//									pcvr.OpenQiNangHou();
+//									pcvr.CloseQiNangQian(KeyZYQiNangState);
+//								}
 								break;
 						case 2:
 								QiNangStateTK[0] = 1;
 								QiNangStateTK[1] = 0;
-								if (!pcvr.IsUse2QNLinkTank) {
-										pcvr.OpenQiNangQian();
-										pcvr.CloseQiNangHou(KeyZYQiNangState);
+								if (IsQiNangDanBian) {
+									pcvr.OpenQiNangZuo();
+									pcvr.CloseQiNangZuo();
+									pcvr.OpenQiNangYou();
+									pcvr.CloseQiNangYou();
+									pcvr.OpenQiNangHou();
+									pcvr.CloseQiNangQian(0);
 								}
-								else {
-										if (!IsHandlePlayerZYQN) {
-												IsHandlePlayerZYQN = true;
-												StartCoroutine(HandlePlayerZuoYiQiNang());
-										}
-								}
+								pcvr.OpenQiNangQian();
+								#if QI_NANG_DAN_BIAN
+								pcvr.CloseQiNangHou(0);
+								#else
+								pcvr.CloseQiNangHou(KeyZYQiNangState);
+								#endif
+
+//								QiNangStateTK[0] = 1;
+//								QiNangStateTK[1] = 0;
+//								if (!pcvr.IsUse2QNLinkTank) {
+//										pcvr.OpenQiNangQian();
+//										pcvr.CloseQiNangHou(KeyZYQiNangState);
+//								}
+//								else {
+//										if (!IsHandlePlayerZYQN) {
+//												IsHandlePlayerZYQN = true;
+//												StartCoroutine(HandlePlayerZuoYiQiNang());
+//										}
+//								}
 								break;
 						}
 
@@ -251,27 +300,57 @@ QiNangStateFJ[3] -> 右气囊
 								QiNangStateTK[2] = 0;
 								QiNangStateTK[3] = 0;
 								if (KeyQHQiNangState == 0) {
-										if (!pcvr.IsUse2QNLinkTank) {
-											pcvr.CloseQiNangZuo();
-											pcvr.CloseQiNangYou();
-										}
+										pcvr.CloseQiNangZuo();
+										pcvr.CloseQiNangYou();
 								}
+//								QiNangStateTK[2] = 0;
+//								QiNangStateTK[3] = 0;
+//								if (KeyQHQiNangState == 0) {
+//										if (!pcvr.IsUse2QNLinkTank) {
+//											pcvr.CloseQiNangZuo();
+//											pcvr.CloseQiNangYou();
+//										}
+//								}
 								break;
 						case 1:
 								QiNangStateTK[2] = 0;
 								QiNangStateTK[3] = 1;
-								if (!pcvr.IsUse2QNLinkTank) {
-									pcvr.OpenQiNangYou();
-									pcvr.CloseQiNangZuo(KeyQHQiNangState);
+								if (IsQiNangDanBian) {
+									pcvr.OpenQiNangZuo();
+									pcvr.CloseQiNangYou(0);
 								}
+								pcvr.OpenQiNangYou();
+								#if QI_NANG_DAN_BIAN
+								pcvr.CloseQiNangZuo(0);
+								#else
+								pcvr.CloseQiNangZuo(KeyQHQiNangState);
+								#endif
+//								QiNangStateTK[2] = 0;
+//								QiNangStateTK[3] = 1;
+//								if (!pcvr.IsUse2QNLinkTank) {
+//									pcvr.OpenQiNangYou();
+//									pcvr.CloseQiNangZuo(KeyQHQiNangState);
+//								}
 								break;
 						case 2:
 								QiNangStateTK[2] = 1;
 								QiNangStateTK[3] = 0;
-								if (!pcvr.IsUse2QNLinkTank) {
-									pcvr.OpenQiNangZuo();
-									pcvr.CloseQiNangYou(KeyQHQiNangState);
+								if (IsQiNangDanBian) {
+									pcvr.OpenQiNangYou();
+									pcvr.CloseQiNangZuo(0);
 								}
+								pcvr.OpenQiNangZuo();
+								#if QI_NANG_DAN_BIAN
+								pcvr.CloseQiNangYou(0);
+								#else
+								pcvr.CloseQiNangYou(KeyQHQiNangState);
+								#endif
+//								QiNangStateTK[2] = 1;
+//								QiNangStateTK[3] = 0;
+//								if (!pcvr.IsUse2QNLinkTank) {
+//									pcvr.OpenQiNangZuo();
+//									pcvr.CloseQiNangYou(KeyQHQiNangState);
+//								}
 								break;
 						}
 						break;
@@ -291,12 +370,12 @@ QiNangStateFJ[3] -> 右气囊
 								case 1:
 										QiNangStateFJ[0] = 0;
 										QiNangStateFJ[1] = 1;
-										if (IsQiNangFeiJi) {
+										if (IsQiNangDanBian) {
 											pcvr.OpenQiNangQian();
 											pcvr.CloseQiNangHou(0);
 										}
 										pcvr.OpenQiNangHou();
-										#if QI_NANG_FEI_JI
+										#if QI_NANG_DAN_BIAN
 										pcvr.CloseQiNangQian(0);
 										#else
 										pcvr.CloseQiNangQian(KeyZYQiNangState);
@@ -305,12 +384,12 @@ QiNangStateFJ[3] -> 右气囊
 								case 2:
 										QiNangStateFJ[0] = 1;
 										QiNangStateFJ[1] = 0;
-										if (IsQiNangFeiJi) {
+										if (IsQiNangDanBian) {
 											pcvr.OpenQiNangHou();
 											pcvr.CloseQiNangQian(0);
 										}
 										pcvr.OpenQiNangQian();
-										#if QI_NANG_FEI_JI
+										#if QI_NANG_DAN_BIAN
 										pcvr.CloseQiNangHou(0);
 										#else
 										pcvr.CloseQiNangHou(KeyZYQiNangState);
@@ -330,12 +409,12 @@ QiNangStateFJ[3] -> 右气囊
 								case 1:
 										QiNangStateFJ[2] = 0;
 										QiNangStateFJ[3] = 1;
-										if (IsQiNangFeiJi) {
+										if (IsQiNangDanBian) {
 											pcvr.OpenQiNangZuo();
 											pcvr.CloseQiNangYou(0);
 										}
 										pcvr.OpenQiNangYou();
-										#if QI_NANG_FEI_JI
+										#if QI_NANG_DAN_BIAN
 										pcvr.CloseQiNangZuo(0);
 										#else
 										pcvr.CloseQiNangZuo(KeyQHQiNangState);
@@ -344,12 +423,12 @@ QiNangStateFJ[3] -> 右气囊
 								case 2:
 										QiNangStateFJ[2] = 1;
 										QiNangStateFJ[3] = 0;
-										if (IsQiNangFeiJi) {
+										if (IsQiNangDanBian) {
 											pcvr.OpenQiNangYou();
 											pcvr.CloseQiNangZuo(0);
 										}
 										pcvr.OpenQiNangZuo();
-										#if QI_NANG_FEI_JI
+										#if QI_NANG_DAN_BIAN
 										pcvr.CloseQiNangYou(0);
 										#else
 										pcvr.CloseQiNangYou(KeyQHQiNangState);

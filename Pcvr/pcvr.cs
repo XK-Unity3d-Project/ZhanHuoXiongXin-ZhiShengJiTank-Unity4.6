@@ -7,7 +7,7 @@
 /**
  * COM_FEIJI_TX该属性用来打开飞机机台的硬件通讯逻辑.
  */
-#define LIAN_JI_TANK_2QN
+//#define LIAN_JI_TANK_2QN
 /**
  * LIAN_JI_TANK_2QN直升机坦克联合作战机台2个座椅气囊.
  */
@@ -367,9 +367,9 @@ QiNangArray[0]            QiNangArray[1]
 	 */
 	public static void CloseAllQiNangArray(int key = 0)
 	{
-		if (Instance != null) {
-			Instance.StopPlayLedTx();
-		}
+//		if (Instance != null) {
+//			Instance.StopPlayLedTx();
+//		}
 		for (int i = 0; i < QiNangArray.Length;  i++) {
 			QiNangArray[i] = 0;
 		}
@@ -430,15 +430,14 @@ QiNangArray[0]            QiNangArray[1]
 				break;
 		#else
 		case AppGameType.LianJiTanKe:
+		case AppGameType.DanJiTanKe:
 			if (XkGameCtrl.IsActivePlayerOne || XkGameCtrl.IsActivePlayerTwo) {
-			QiNangArray[0] = 1;
-			QiNangArray[4] = 1;
-			QiNangArray[1] = 1;
+				QiNangArray[0] = 1;
+				QiNangArray[1] = 1;
 			}
 			else {
-			QiNangArray[0] = 0;
-			QiNangArray[4] = 0;
-			QiNangArray[1] = 0;
+				QiNangArray[0] = 0;
+				QiNangArray[1] = 0;
 			}
 		break;
 		#endif
@@ -493,7 +492,7 @@ QiNangArray[0]            QiNangArray[1]
 			default:
 					QiNangArray[0] = 0;
 					QiNangArray[1] = 0;
-					if (XKPlayerDongGanCtrl.IsQiNangFeiJi) {
+					if (XKPlayerDongGanCtrl.IsQiNangDanBian) {
 						QiNangArray[4] = 0;
 						QiNangArray[5] = 0;
 					}
@@ -508,22 +507,10 @@ QiNangArray[0]            QiNangArray[1]
 					QiNangArray[1] = 0;
 					break;
 			#else
-			case AppGameType.LianJiTanKe:
-			switch (key) {
-				case 1:
-				QiNangArray[0] = 0;
-				QiNangArray[4] = 0;
-				break;
-				case 2:
-				QiNangArray[1] = 0;
-				QiNangArray[4] = 0;
-				break;
-				default:
-				QiNangArray[0] = 0;
-				QiNangArray[4] = 0;
-				QiNangArray[1] = 0;
-				break;
-			}
+		case AppGameType.LianJiTanKe:
+		case AppGameType.DanJiTanKe:
+			QiNangArray[0] = 0;
+			QiNangArray[1] = 0;
 			break;
 			#endif
 		
@@ -564,14 +551,13 @@ QiNangArray[0]            QiNangArray[1]
 				break;
 
 		case AppGameType.LianJiTanKe:
+		case AppGameType.DanJiTanKe:
 			if (XkGameCtrl.IsActivePlayerOne || XkGameCtrl.IsActivePlayerTwo) {
 				QiNangArray[3] = 1;
-				QiNangArray[6] = 1;
 				QiNangArray[2] = 1;
 			}
 			else {
 				QiNangArray[3] = 0;
-				QiNangArray[6] = 0;
 				QiNangArray[2] = 0;
 			}
 			break;
@@ -626,7 +612,7 @@ QiNangArray[0]            QiNangArray[1]
 			default:
 					QiNangArray[2] = 0;
 					QiNangArray[3] = 0;
-					if (XKPlayerDongGanCtrl.IsQiNangFeiJi) {
+					if (XKPlayerDongGanCtrl.IsQiNangDanBian) {
 						QiNangArray[4] = 0;
 						QiNangArray[5] = 0;
 					}
@@ -635,21 +621,9 @@ QiNangArray[0]            QiNangArray[1]
 			break;
 
 		case AppGameType.LianJiTanKe:
-			switch (key) {
-			case 1:
-				QiNangArray[3] = 0;
-				QiNangArray[6] = 0;
-				break;
-			case 2:
-				QiNangArray[2] = 0;
-				QiNangArray[6] = 0;
-				break;
-			default:
-				QiNangArray[3] = 0;
-				QiNangArray[6] = 0;
-				QiNangArray[2] = 0;
-				break;
-			}
+		case AppGameType.DanJiTanKe:
+			QiNangArray[3] = 0;
+			QiNangArray[2] = 0;
 			break;
 			
 		default:
@@ -687,20 +661,21 @@ QiNangArray[0]            QiNangArray[1]
 				QiNangArray[0] = 1;
 				QiNangArray[3] = 1;
 				QiNangArray[4] = 1;
-				if (!XKPlayerDongGanCtrl.IsQiNangFeiJi) {
+				if (!XKPlayerDongGanCtrl.IsQiNangDanBian) {
 					QiNangArray[6] = 1;
 				}
 				break;
 
 		case AppGameType.LianJiTanKe:
+		case AppGameType.DanJiTanKe:
 			if (XkGameCtrl.IsActivePlayerOne || XkGameCtrl.IsActivePlayerTwo) {
 				QiNangArray[0] = 1;
-				QiNangArray[7] = 1;
+				QiNangArray[4] = 1;
 				QiNangArray[3] = 1;
 			}
 			else {
 				QiNangArray[0] = 0;
-				QiNangArray[7] = 0;
+				QiNangArray[4] = 0;
 				QiNangArray[3] = 0;
 			}
 			break;
@@ -766,21 +741,10 @@ QiNangArray[0]            QiNangArray[1]
 			break;
 
 		case AppGameType.LianJiTanKe:
-			switch (key) {
-			case 1:
-				QiNangArray[0] = 0;
-				QiNangArray[7] = 0;
-				break;
-			case 2:
-				QiNangArray[3] = 0;
-				QiNangArray[7] = 0;
-				break;
-			default:
-				QiNangArray[0] = 0;
-				QiNangArray[7] = 0;
-				QiNangArray[3] = 0;
-				break;
-			}
+		case AppGameType.DanJiTanKe:
+			QiNangArray[0] = 0;
+			QiNangArray[3] = 0;
+			QiNangArray[4] = 0;
 			break;
 			
 		default:
@@ -818,12 +782,13 @@ QiNangArray[0]            QiNangArray[1]
 				QiNangArray[1] = 1;
 				QiNangArray[2] = 1;
 				QiNangArray[5] = 1;
-				if (!XKPlayerDongGanCtrl.IsQiNangFeiJi) {
+				if (!XKPlayerDongGanCtrl.IsQiNangDanBian) {
 					QiNangArray[7] = 1;
 				}
 				break;
 
 		case AppGameType.LianJiTanKe:
+		case AppGameType.DanJiTanKe:
 			if (XkGameCtrl.IsActivePlayerOne || XkGameCtrl.IsActivePlayerTwo) {
 				QiNangArray[1] = 1;
 				QiNangArray[5] = 1;
@@ -897,21 +862,10 @@ QiNangArray[0]            QiNangArray[1]
 			break;
 
 		case AppGameType.LianJiTanKe:
-			switch (key) {
-			case 1:
-				QiNangArray[1] = 0;
-				QiNangArray[5] = 0;
-				break;
-			case 2:
-				QiNangArray[2] = 0;
-				QiNangArray[5] = 0;
-				break;
-			default:
-				QiNangArray[1] = 0;
-				QiNangArray[5] = 0;
-				QiNangArray[2] = 0;
-				break;
-			}
+		case AppGameType.DanJiTanKe:
+			QiNangArray[1] = 0;
+			QiNangArray[2] = 0;
+			QiNangArray[5] = 0;
 			break;
 			
 		default:
