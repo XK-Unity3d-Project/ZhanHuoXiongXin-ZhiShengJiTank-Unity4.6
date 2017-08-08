@@ -189,7 +189,7 @@ public class XkGameCtrl : MonoBehaviour {
 		}
 		pcvr.CloseAllQiNangArray();
 		pcvr.OpenPlayerGunZhenDong();
-		//pcvr.GetInstance().StartPlayLedTX();
+		pcvr.GetInstance().StartPlayLedTX();
 		XKSpawnNpcPoint.ClearFiJiNpcPointList();
 		XKPlayerHeTiData.IsActiveHeTiPlayer = false;
 		XKTriggerClosePlayerUI.IsActiveHeTiCloseUI = false;

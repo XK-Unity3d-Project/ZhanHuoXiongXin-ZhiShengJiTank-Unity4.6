@@ -39,7 +39,7 @@ public class SetPanelUiRoot : MonoBehaviour
 	/**
 	 * 联机坦克气囊测试图片,只更新前两个图片.
 	 */
-	public Texture[] QiNangTankUI;
+	public Texture[] QiNangTankUI; //坦克与直升机气囊交换.
 	public Transform GunCrossTran;
 	public GameObject GunAdjustObj;
 	public UISprite SpriteAdjustGunCross;
@@ -219,13 +219,16 @@ public class SetPanelUiRoot : MonoBehaviour
 
 		if (GameTypeCtrl.AppTypeStatic == AppGameType.LianJiFeiJi
 		    || GameJiTai == GameJiTaiType.FeiJiJiTai) {
-			QiNangUI = QiNangZSJUI;
+			//QiNangUI = QiNangZSJUI;
+			QiNangUI[0] = QiNangTankUI[0];
+			QiNangUI[1] = QiNangTankUI[1];
 		}
 		
 		if (GameTypeCtrl.AppTypeStatic == AppGameType.LianJiTanKe
 		    || GameJiTai == GameJiTaiType.TanKeJiTai) {
-			QiNangUI[0] = QiNangTankUI[0];
-			QiNangUI[1] = QiNangTankUI[1];
+			//QiNangUI[0] = QiNangTankUI[0];
+			//QiNangUI[1] = QiNangTankUI[1];
+			QiNangUI = QiNangZSJUI;
 		}
 
 		GameOverCtrl.IsShowGameOver = false;
@@ -1197,9 +1200,9 @@ public class SetPanelUiRoot : MonoBehaviour
 					StarMoveCount = (int)SelectSetGameDt.DianJiSpeedP2;
 					break;
 					
-				case SelectSetGameDt.QiNangTest2:
-					StarMoveCount = (int)SelectSetGameDt.Null;
-					break;
+//				case SelectSetGameDt.QiNangTest2:
+//					StarMoveCount = (int)SelectSetGameDt.Null;
+//					break;
 				}
 			}
 

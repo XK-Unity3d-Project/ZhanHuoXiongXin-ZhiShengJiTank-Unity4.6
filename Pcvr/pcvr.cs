@@ -375,9 +375,9 @@ QiNangArray[0]            QiNangArray[1]
 	 */
 	public static void CloseAllQiNangArray(int key = 0)
 	{
-//		if (Instance != null) {
-//			Instance.StopPlayLedTx();
-//		}
+		if (Instance != null) {
+			Instance.StopPlayLedTx();
+		}
 		for (int i = 0; i < QiNangArray.Length;  i++) {
 			QiNangArray[i] = 0;
 		}
