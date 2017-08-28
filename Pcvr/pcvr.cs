@@ -11,7 +11,7 @@
 /**
  * LIAN_JI_TANK_2QN直升机坦克联合作战机台2个座椅气囊.
  */
-#define LIAN_JI_FEIJI_2QN
+//#define LIAN_JI_FEIJI_2QN
 /**
  * LIAN_JI_FEIJI_2QN直升机坦克联合作战机台2个座椅气囊.
  */

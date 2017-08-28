@@ -22,7 +22,7 @@ public class GameMovieCtrl : MonoBehaviour {
 	/**
 	 * 控制游戏为3屏或1屏输出.
 	 * 1.单机和联机坦克为3屏输出.
-	 * 2.直升机机台为1屏输出.
+	 * 2.直升机机台为3屏输出.
 	 */
 	public static bool IsThreeScreenGame = false;
 	public static bool IsActivePlayer;
@@ -59,7 +59,7 @@ public class GameMovieCtrl : MonoBehaviour {
 		switch (GameTypeCtrl.AppTypeStatic) {
 		case AppGameType.DanJiFeiJi:
 		case AppGameType.LianJiFeiJi:
-			IsThreeScreenGame = false;
+			IsThreeScreenGame = true;
 			break;
 		case AppGameType.DanJiTanKe:
 		case AppGameType.LianJiTanKe:
