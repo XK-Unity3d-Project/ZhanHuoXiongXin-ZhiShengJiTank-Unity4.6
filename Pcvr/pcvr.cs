@@ -250,7 +250,8 @@ public class pcvr : MonoBehaviour {
 		CheckCrossPositionPOne();
 		CheckCrossPositionPTwo();
 		CheckIsPlayerActivePcvr();
-	}
+        ChangeQiNangDouDong();
+    }
 
 	// Update is called once per frame
 	void FixedUpdate()
@@ -369,6 +370,56 @@ QiNangArray[0]            QiNangArray[1]
 7号信号用于控制前面灯,8号信号用于控制尾灯(坦克,直升机IO板信号管脚均一致)
 	 */
 	public static byte[] QiNangArray = {0, 0, 0, 0, 0, 0, 0, 0};
+    byte[] RecordQiNangDt = new byte[8];
+    float TimeDouDongVal = 0.08f; //抖动时长.
+    float TimeDouDongDisVal = 0.08f; //抖动冷却时长.
+    float TimeLastDouDongVal;
+    byte[] DouDongQiNangDt = new byte[8];
+    byte StateDouDong = 1;
+    void ChangeQiNangDouDong()
+    {
+        if (DongGanState != 1)
+        {
+            return;
+        }
+
+        switch (StateDouDong)
+        {
+            case 0:
+                {
+                    if (Time.time - TimeLastDouDongVal >= TimeDouDongVal)
+                    {
+                        StateDouDong = 1;
+                        QiNangArray = RecordQiNangDt;
+                        TimeLastDouDongVal = Time.time;
+                    }
+                    else
+                    {
+                        QiNangArray = DouDongQiNangDt;
+                    }
+                    break;
+                }
+            case 1:
+                {
+                    if (Time.time - TimeLastDouDongVal >= TimeDouDongDisVal)
+                    {
+                        StateDouDong = 0;
+                        RecordQiNangDt = QiNangArray;
+                        TimeLastDouDongVal = Time.time;
+                        int qiNangVal = UnityEngine.Random.Range(0, 100) % 64;
+                        DouDongQiNangDt[0] = (byte)(qiNangVal & 0x01);
+                        DouDongQiNangDt[1] = (byte)((qiNangVal & 0x02) >> 1);
+                        DouDongQiNangDt[2] = (byte)((qiNangVal & 0x04) >> 2);
+                        DouDongQiNangDt[3] = (byte)((qiNangVal & 0x08) >> 3);
+                        DouDongQiNangDt[4] = (byte)((qiNangVal & 0x10) >> 4);
+                        DouDongQiNangDt[5] = (byte)((qiNangVal & 0x20) >> 5);
+                        DouDongQiNangDt[6] = 0x01;
+                        DouDongQiNangDt[7] = 0x01;
+                    }
+                    break;
+                }
+        }
+    }
 	/**
 	 * key == 0 -> 关闭动感,气囊.
 	 * key == 1 -> 关闭气囊,停止座椅电机的运动.
