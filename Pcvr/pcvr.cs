@@ -376,12 +376,29 @@ QiNangArray[0]            QiNangArray[1]
     float TimeLastDouDongVal;
     byte[] DouDongQiNangDt = new byte[8];
     byte StateDouDong = 1;
+    float TimeRandomDouDong = 2f;
+    float TimeRandomDouDongLast = 2f;
+    float TimeRandomDouDongLengQue = 2f;
     void ChangeQiNangDouDong()
     {
         if (DongGanState != 1)
         {
             return;
         }
+
+        if (Time.time - TimeRandomDouDongLast <= TimeRandomDouDongLengQue)
+        {
+            return;
+        }
+
+        if (Time.time - TimeRandomDouDongLast > TimeRandomDouDongLengQue + TimeRandomDouDong)
+        {
+            TimeRandomDouDongLengQue = UnityEngine.Random.Range(2f, 5f);
+            TimeRandomDouDong = UnityEngine.Random.Range(2f, 5f);
+            TimeRandomDouDongLast = Time.time;
+            return;
+        }
+        //Debug.Log("time " + Time.time);
 
         switch (StateDouDong)
         {
@@ -1672,7 +1689,13 @@ QiNangArray[0]            QiNangArray[1]
 
 		case PcvrComState.TanKeGunZhenDong:
 		{
-			#if COM_TANK_TEST || COM_FEIJI_TX
+            #if COM_TANK_TEST || COM_FEIJI_TX
+            if (MyCOMDevice.ComThreadClass.ReadByteMsg[0] != 0x01
+                || MyCOMDevice.ComThreadClass.ReadByteMsg[1] != 0x55)
+            {
+                return;
+            }
+
 			if ((MyCOMDevice.ComThreadClass.ReadByteMsg[22]&0x01) == 0x01) {
 				JiOuJiaoYanCount++;
 				if (JiOuJiaoYanCount >= JiOuJiaoYanMax && !IsJiOuJiaoYanFailed) {

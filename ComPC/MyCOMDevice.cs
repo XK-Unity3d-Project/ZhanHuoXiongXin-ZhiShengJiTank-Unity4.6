@@ -107,24 +107,26 @@ public class MyCOMDevice : MonoBehaviour
 		{
 			do
 			{
-				/*if (XkGameCtrl.IsLoadingLevel) {
+                /*if (XkGameCtrl.IsLoadingLevel) {
 					Thread.Sleep(100);
 					continue;
 				}*/
 
-				IsTestWRPer = false;
-				if (IsReadMsgComTimeOut) {
-					CloseComPort();
-					break;
-				}
+                //IsTestWRPer = false;
+                //if (IsReadMsgComTimeOut)
+                //{
+                //    CloseComPort();
+                //    break;
+                //}
 
-				if (IsStopComTX) {
-					IsReadComMsg = false;
-					Thread.Sleep(1000);
-					continue;
-				}
+                //if (IsStopComTX)
+                //{
+                //    IsReadComMsg = false;
+                //    Thread.Sleep(1000);
+                //    continue;
+                //}
 
-				COMTxData();
+                COMTxData();
 				COMRxData();
 				if (pcvr.IsJiaoYanHid || !pcvr.IsPlayerActivePcvr) {
 					Thread.Sleep(100);
@@ -132,8 +134,8 @@ public class MyCOMDevice : MonoBehaviour
 				else {
 					Thread.Sleep(15);
 				}
-				IsTestWRPer = true;
-			}
+                //IsTestWRPer = true;
+            }
 			while (_SerialPort.IsOpen);
 			CloseComPort();
 			Debug.Log("Close run thead...");
@@ -188,7 +190,7 @@ public class MyCOMDevice : MonoBehaviour
 				}
 
 				Debug.Log("Rx error:COM..." + exception);
-				IsReadMsgComTimeOut = true;
+				//IsReadMsgComTimeOut = true;
 				IsReadComMsg = false;
 				ReadTimeOutCount++;
 			}
@@ -294,12 +296,13 @@ public class MyCOMDevice : MonoBehaviour
 	 */
 	public void ForceRestartComPort()
 	{
-		if (!pcvr.bIsHardWare) {
-			return;
-		}
-		ComThreadClass.IsReadMsgComTimeOut = true;
-		RestartComPort();
-	}
+        if (!pcvr.bIsHardWare)
+        {
+            return;
+        }
+        //ComThreadClass.IsReadMsgComTimeOut = true;
+        //RestartComPort();
+    }
 
 	void Update()
 	{
@@ -312,20 +315,19 @@ public class MyCOMDevice : MonoBehaviour
 //		}
 		//test end...
 		
-		if (!pcvr.bIsHardWare || XkGameCtrl.IsLoadingLevel || ComThreadClass.IsReadComMsg) {
-			return;
-		}
+		//if (!pcvr.bIsHardWare || XkGameCtrl.IsLoadingLevel || ComThreadClass.IsReadComMsg) {
+		//	return;
+		//}
 
-		if (GameTypeCtrl.AppTypeStatic == AppGameType.LianJiServer) {
-			return;
-		}
+		//if (GameTypeCtrl.AppTypeStatic == AppGameType.LianJiServer) {
+		//	return;
+		//}
 
-		if (Time.realtimeSinceStartup - TimeLastVal < TimeUnitDelta) {
-			return;
-		}
-		TimeLastVal = Time.realtimeSinceStartup;
-
-		CheckTimeOutReadMsg();
+		//if (Time.realtimeSinceStartup - TimeLastVal < TimeUnitDelta) {
+		//	return;
+		//}
+		//TimeLastVal = Time.realtimeSinceStartup;
+		//CheckTimeOutReadMsg();
 	}
 
 //	void OnGUI()
